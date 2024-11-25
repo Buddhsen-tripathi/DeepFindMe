@@ -10,11 +10,17 @@ export default function Navbar() {
 
   return (
     <nav className="absolute top-0 left-0 right-0 z-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 lg:py-2">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center">
-              <span className="ml-2 text-white font-bold text-xl">Logo</span>
+            <Image
+                src="/logo-white.png"
+                alt="Logo"
+                width={50}
+                height={50}
+                className="rounded-full"
+              />
             </Link>
           </div>
           <div className="hidden md:block">
