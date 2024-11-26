@@ -1,8 +1,7 @@
 "use client"
 
 import { useRef, useEffect } from 'react'
-import Link from 'next/link'
-import { Search, User, Globe, Shield, Zap, FileSearch, Link as LinkIcon, Mail } from 'lucide-react'
+import { User, Globe, Shield, Zap, FileSearch, Mail } from 'lucide-react'
 import NavBar from '@/components/NavBar'
 import Footer from '@/components/Footer'
 
