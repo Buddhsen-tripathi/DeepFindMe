@@ -9,7 +9,7 @@ export default function GlobeRenderer() {
   useEffect(() => {
     if (!globeRef.current) return;
 
-    const container = globeRef.current; // Store ref in a variable
+    const container = globeRef.current; 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       75,
@@ -39,6 +39,7 @@ export default function GlobeRenderer() {
       requestAnimationFrame(animate);
       globe.rotation.x += 0.002;
       globe.rotation.y += 0.002;
+      globe.rotation.z += 0.00025;
       renderer.render(scene, camera);
     }
     animate();
@@ -53,7 +54,7 @@ export default function GlobeRenderer() {
 
     return () => {
       renderer.dispose();
-      container.removeChild(renderer.domElement); // Use stored ref value
+      container.removeChild(renderer.domElement); 
       window.removeEventListener("resize", handleResize);
     };
   }, []);

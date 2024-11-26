@@ -1,59 +1,52 @@
 "use client"
 
 import { useRef, useEffect } from 'react'
-import { User, Globe, Shield, Zap, FileSearch, Mail } from 'lucide-react'
-import NavBar from '@/components/NavBar'
-import Footer from '@/components/Footer'
+import Link from 'next/link'
+import { User, MapPin, Mail, FileText, Search, Network, Shield } from 'lucide-react'
 
-const tools = [
+const toolCategories = [
   {
-    category: "People Search",
+    name: "Social Media Investigative Tools",
     icon: <User className="w-12 h-12 text-cyan-400" />,
-    tools: [
-      { name: "People Finder", description: "Aggregate public records, social media, and news mentions." },
-      { name: "Social Media Analyzer", description: "In-depth analysis of social media profiles and activity." },
-    ]
+    description: "Analyze social media profiles and usernames across platforms.",
+    link: "/tools/social-media"
   },
   {
-    category: "Web Intelligence",
-    icon: <Globe className="w-12 h-12 text-cyan-400" />,
-    tools: [
-      { name: "Domain Investigator", description: "Comprehensive domain and website analysis." },
-      { name: "Dark Web Scanner", description: "Search and monitor dark web mentions and activities." },
-    ]
+    name: "Geolocation Tools",
+    icon: <MapPin className="w-12 h-12 text-cyan-400" />,
+    description: "Extract location data from images and track IP addresses.",
+    link: "/tools/geolocation"
   },
   {
-    category: "Digital Forensics",
-    icon: <Shield className="w-12 h-12 text-cyan-400" />,
-    tools: [
-      { name: "Metadata Extractor", description: "Analyze files for hidden metadata and information." },
-      { name: "Image Forensics", description: "Advanced image analysis and verification tools." },
-    ]
-  },
-  {
-    category: "Network Analysis",
-    icon: <Zap className="w-12 h-12 text-cyan-400" />,
-    tools: [
-      { name: "IP Geolocation", description: "Trace IP addresses to physical locations and gather related info." },
-      { name: "Network Mapper", description: "Visualize and analyze network structures and connections." },
-    ]
-  },
-  {
-    category: "Data Extraction",
-    icon: <FileSearch className="w-12 h-12 text-cyan-400" />,
-    tools: [
-      { name: "Web Scraper", description: "Extract structured data from websites and web applications." },
-      { name: "PDF Analyzer", description: "Extract and analyze content from PDF documents." },
-    ]
-  },
-  {
-    category: "Communication Analysis",
+    name: "Email & Domain Investigation",
     icon: <Mail className="w-12 h-12 text-cyan-400" />,
-    tools: [
-      { name: "Email Tracker", description: "Analyze email headers and track email origins." },
-      { name: "Phone Number Lookup", description: "Gather information associated with phone numbers." },
-    ]
+    description: "Validate emails, lookup domains, and perform reverse searches.",
+    link: "/tools/email-domain"
   },
+  {
+    name: "File Analysis Tools",
+    icon: <FileText className="w-12 h-12 text-cyan-400" />,
+    description: "Extract metadata, verify file integrity, and search documents.",
+    link: "/tools/file-analysis"
+  },
+  {
+    name: "People Search Tools",
+    icon: <Search className="w-12 h-12 text-cyan-400" />,
+    description: "Find people, perform facial recognition, and deep search public records.",
+    link: "/tools/people-search"
+  },
+  {
+    name: "Network & Cyber Tools",
+    icon: <Network className="w-12 h-12 text-cyan-400" />,
+    description: "Discover subdomains, scan ports, and analyze DNS records.",
+    link: "/tools/network-cyber"
+  },
+  {
+    name: "Dark Web Exploration Tools",
+    icon: <Shield className="w-12 h-12 text-cyan-400" />,
+    description: "Check dark web links and scan for data breaches.",
+    link: "/tools/dark-web"
+  }
 ]
 
 export default function ToolsPage() {
@@ -88,8 +81,8 @@ export default function ToolsPage() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      <NavBar />
-      <main className="pt-16">
+
+      <main className="pt-8">
         <section ref={sectionRef} className="py-16 opacity-0">
           <div className="container mx-auto px-4">
             <h1 className="text-4xl font-bold mb-8 text-center">DeepFind.Me Tools</h1>
@@ -97,28 +90,22 @@ export default function ToolsPage() {
               Explore our comprehensive suite of OSINT tools designed to enhance your digital investigations and research.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {tools.map((category, index) => (
-                <div key={index} className="bg-gray-800 p-6 rounded-lg border border-cyan-500 hover:border-cyan-400 transition-all duration-300 transform hover:scale-105">
-                  <div className="flex items-center mb-4">
-                    {category.icon}
-                    <h2 className="text-2xl font-semibold ml-4">{category.category}</h2>
+              {toolCategories.map((category, index) => (
+                <Link href={category.link} key={index}>
+                  <div className="bg-gray-800 p-6 rounded-lg border border-cyan-500 hover:border-cyan-400 transition-all duration-300 transform hover:scale-105 cursor-pointer h-full flex flex-col">
+                    <div className="flex items-center mb-4">
+                      {category.icon}
+                      <h2 className="text-2xl font-semibold ml-4">{category.name}</h2>
+                    </div>
+                    <p className="text-gray-400 flex-grow">{category.description}</p>
+                    <div className="mt-4 text-cyan-400 font-semibold">Explore Tools →</div>
                   </div>
-                  <ul className="space-y-4">
-                    {category.tools.map((tool, toolIndex) => (
-                      <li key={toolIndex}>
-                        <h3 className="text-lg font-medium text-cyan-400">{tool.name}</h3>
-                        <p className="text-gray-400">{tool.description}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   )
 }
-
