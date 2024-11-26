@@ -40,8 +40,9 @@ export default function FeatureSection() {
     },
     {
       icon: <Search className="w-12 h-12 text-cyan-400" />,
-      title: "Username Lookup",
-      description: "Search for a username across multiple platforms (Twitter, Instagram, TikTok, etc.)"
+      title: "Username Search",
+      description: "Search for a username across multiple platforms (Twitter, Instagram, TikTok, etc.)",
+      href:"tools/social-media/username"
     },
     {
       icon: <Shield className="w-12 h-12 text-cyan-400" />,

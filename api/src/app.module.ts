@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsernameLookupModule } from './module/username-lookup.module';
+import { UsernameSearchModule } from './module/username-search.module';
 
 @Module({
-  imports: [UsernameLookupModule],
+  imports: [UsernameSearchModule],
   controllers: [AppController],
   providers: [AppService],
 })

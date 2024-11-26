@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 
 @Injectable()
-export class UsernameLookupService {
+export class UsernameSearchService {
   // List of platforms with URL templates
   private platforms = {
     Instagram: 'https://instagram.com/{username}',
@@ -57,7 +57,7 @@ export class UsernameLookupService {
     GitBook: 'https://{username}.gitbook.io',
   };
 
-  async lookupUsername(username: string) {
+  async searchUsername(username: string) {
     const results = [];
 
     for (const platform in this.platforms) {

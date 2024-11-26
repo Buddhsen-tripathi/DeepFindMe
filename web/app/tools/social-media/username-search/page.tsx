@@ -33,7 +33,7 @@ const categories = {
   ],
 };
 
-export default function UsernameLookup() {
+export default function UsernameSearch() {
   const [username, setUsername] = useState("");
   const [results, setResults] = useState<
     { platform: string; status: string; url: string | null }[]
@@ -54,10 +54,16 @@ export default function UsernameLookup() {
     setResults([]);
 
     try {
-      const response = await axios.post("http://localhost:5002/username-lookup", { username });
+      const response = await axios.post("http://localhost:5002/username-search", { username });
       setResults(response.data.results);
-    } catch (err: any) {
-      setError(err.response?.data?.message || "An unexpected error occurred.");
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || "An unexpected error occurred.");
+      } else if (err instanceof Error) {
+        setError(err.message || "An unknown error occurred.");
+      } else {
+        setError("An unexpected error occurred.");
+      }
     } finally {
       setLoading(false);
     }
@@ -71,10 +77,10 @@ export default function UsernameLookup() {
   return (
     <section className="py-16">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold mb-8 text-center">Username Lookup</h1>
-        <div className="max-w-md mx-auto">
-          <form onSubmit={handleSubmit} className="mb-8">
-            <div className="flex items-center space-x-2 text-gray-950">
+        <h1 className="text-4xl font-bold mb-8 text-center">Username Search</h1>
+        <div className="max-w-md mx-auto mb-8">
+          <form onSubmit={handleSubmit}>
+            <div className="flex items-center space-x-2 text-black">
               <Input
                 type="text"
                 placeholder="Enter username"
@@ -88,12 +94,14 @@ export default function UsernameLookup() {
             </div>
           </form>
           {error && (
-            <div className="bg-red-500 text-white p-4 rounded-lg mb-6">
+            <div className="bg-red-500 text-white p-4 rounded-lg mt-4">
               {error}
             </div>
           )}
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categorizedResults.map(({ category, platforms }) => (
-            <Card key={category} className="mb-6">
+            <Card key={category}>
               <CardHeader>
                 <CardTitle className="text-xl font-semibold text-purple-500">
                   {category}

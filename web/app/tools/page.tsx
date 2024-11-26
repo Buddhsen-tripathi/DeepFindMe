@@ -8,7 +8,7 @@ const toolCategories = [
   {
     name: "Social Media Investigative Tools",
     icon: <User className="w-12 h-12 text-cyan-400" />,
-    description: "Analyze social media profiles and usernames across platforms.",
+    description: "Analyze social media profiles and search usernames across platforms.",
     link: "/tools/social-media"
   },
   {

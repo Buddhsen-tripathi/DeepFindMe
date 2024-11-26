@@ -7,7 +7,7 @@ const toolsData = {
   'social-media': {
     title: "Social Media Investigative Tools",
     tools: [
-      { name: "Username Lookup", description: "Search for a username across multiple platforms (Twitter, Instagram, TikTok, etc.)" },
+      { name: "Username Search", description: "Search for a username across multiple platforms (Twitter, Instagram, TikTok, etc.)" },
       { name: "Profile Analyzer", description: "Extract and analyze public data from social media profiles." }
     ]
   },
