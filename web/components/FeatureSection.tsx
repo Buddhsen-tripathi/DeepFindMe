@@ -13,7 +13,7 @@ export default function FeatureSection() {
         entries.forEach((entry, index) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('animate-fade-in-up')
-            entry.target.style.animationDelay = `${index * 150}ms`
+            entry.target.classList.add(`animate-fade-in-up-${index}`);
           }
         })
       },

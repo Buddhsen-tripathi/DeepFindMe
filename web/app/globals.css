@@ -67,14 +67,13 @@
 
 html, body {
   height: 100%;
-  background-color: #1a202c; /* Dark background color */
+  background-color: #1a202c;
 }
 
 #__next {
   height: 100%;
 }
 
-/* Improved text readability styles */
 h1, h2, h3, h4, h5, h6 {
   text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -93,4 +92,17 @@ h1, h2, h3, h4, h5, h6 {
 
 .text-glow {
   text-shadow: 0 0 10px rgba(0,255,255,0.5); /* Cyan glow */
+}
+
+.animate-fade-in-up-0 {
+  animation-delay: 0ms;
+}
+.animate-fade-in-up-1 {
+  animation-delay: 150ms;
+}
+.animate-fade-in-up-2 {
+  animation-delay: 300ms;
+}
+.animate-fade-in-up-3 {
+  animation-delay: 450ms;
 }
