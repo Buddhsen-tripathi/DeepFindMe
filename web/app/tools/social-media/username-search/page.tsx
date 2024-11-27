@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExternalLink } from 'lucide-react';
 import * as dotenv from 'dotenv'
 
-dotenv.config
+dotenv.config()
 
 const categories = {
   Social: ["Instagram", "TikTok", "X(Twitter)", "Facebook", "Reddit", "Bluesky"],

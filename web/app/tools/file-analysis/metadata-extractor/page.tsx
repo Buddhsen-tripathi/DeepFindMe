@@ -91,8 +91,14 @@ export default function MetadataExtractor() {
       } else {
         throw new Error("Invalid response from server.");
       }
-    } catch (err) {
-      setError("An error occurred while extracting metadata. Please try again.");
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || "An unexpected error occurred.");
+      } else if (err instanceof Error) {
+        setError(err.message || "An unknown error occurred.");
+      } else {
+        setError("An unexpected error occurred.");
+      }
     } finally {
       setLoading(false);
     }
