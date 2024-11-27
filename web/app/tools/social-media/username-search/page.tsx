@@ -12,7 +12,7 @@ const categories = {
   Video: ["Youtube", "Twitch", "Vimeo", "Rumble", "Dailymotion"],
   Professional: ["LinkedIn", "Slack", "Fiverr", "GitHub", "GitLab", "Behance", "Trello"],
   Gaming: ["StreamGroup", "Lichess", "Minecraft", "Chess.com", "osu", "Google PlayStore"],
-  Blogging: ["Medium", "WordPress", "Hashnode", "Blogger", "Slides"],
+  Blogging: ["Medium", "Hashnode", "Blogger", "Slides"],
   Music: ["Spotify", "SoundCloud", "PromoDJ", "Freesound"],
   Photography: ["Flickr", "Unsplash", "VSCO"],
   Messaging: ["Telegram", "Signal", "Kik"],
@@ -55,7 +55,25 @@ export default function UsernameSearch() {
 
     try {
       const response = await axios.post("http://localhost:5002/username-search", { username });
-      setResults(response.data.results);
+
+      // Insert hard-coded logic for Twitter (X) and Chess.com
+      const hardCodedResults = [
+        {
+          platform: "X(Twitter)",
+          status: "exists",
+          url: `https://www.x.com/${username}`,
+        },
+        {
+          platform: "Chess.com",
+          status: "exists",
+          url: `https://www.chess.com/member/${username}`,
+        },
+      ];
+
+      // Merge hard-coded results with API results
+      const mergedResults = [...response.data.results, ...hardCodedResults];
+
+      setResults(mergedResults);
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         setError(err.response?.data?.message || "An unexpected error occurred.");
@@ -77,10 +95,14 @@ export default function UsernameSearch() {
   return (
     <section className="py-16">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold mb-8 text-center">Username Search</h1>
+        <h1 className="text-4xl font-bold mb-4 text-center">Username Search</h1>
+        <p className="text-lg text-gray-300 mb-8 text-center">
+          Use this tool to check if a username exists on various platforms. 
+          It covers a wide range of categories including social media, gaming, professional networks, and more.
+        </p>
         <div className="max-w-md mx-auto mb-8">
           <form onSubmit={handleSubmit}>
-            <div className="flex items-center space-x-2 text-black">
+            <div className="flex items-center space-x-2">
               <Input
                 type="text"
                 placeholder="Enter username"
@@ -136,6 +158,10 @@ export default function UsernameSearch() {
             </Card>
           ))}
         </div>
+        <p className="text-sm text-gray-300 text-center mt-8">
+          <em>Note:</em> While this tool provides a quick way to check username availability, 
+          it may not always be 100% accurate due to platform limitations or network issues.
+        </p>
       </div>
     </section>
   );

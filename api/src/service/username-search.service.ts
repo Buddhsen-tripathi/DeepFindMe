@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 
 @Injectable()
 export class UsernameSearchService {
+  private readonly axiosInstance: AxiosInstance;
+
   // List of platforms with URL templates
-  private platforms = {
+  private readonly platforms = {
     Instagram: 'https://instagram.com/{username}',
     TikTok: 'https://www.tiktok.com/@{username}',
-    Twitter: 'https://x.com/{username}',
     Facebook: 'https://www.facebook.com/{username}',
     Reddit: 'https://www.reddit.com/user/{username}',
     Bluesky: 'https://bsky.app/profile/{username}',
@@ -26,11 +27,9 @@ export class UsernameSearchService {
     StreamGroup: 'https://streamgroup.com/{username}',
     Lichess: 'https://lichess.org/@/{username}',
     Minecraft: 'https://minecraft.net/profile/{username}',
-    'Chess.com': 'https://www.chess.com/member/{username}',
     osu: 'https://osu.ppy.sh/u/{username}',
     'Google PlayStore': 'https://play.google.com/store/apps/developer?id={username}',
     Medium: 'https://medium.com/@{username}',
-    WordPress: 'https://{username}.wordpress.com',
     Hashnode: 'https://hashnode.com/@{username}',
     Blogger: 'https://{username}.blogspot.com',
     Slides: 'https://slides.com/{username}',
@@ -47,8 +46,8 @@ export class UsernameSearchService {
     npm: 'https://www.npmjs.com/~{username}',
     PyPi: 'https://pypi.org/user/{username}',
     DockerHub: 'https://hub.docker.com/u/{username}',
-    'Replit.com': 'https://replit.com/@{username}',
-    Leetcode: 'https://leetcode.com/{username}',
+    Replit : 'https://replit.com/@{username}',
+    Leetcode: 'https://leetcode.com/u/{username}',
     HackerRank: 'https://www.hackerrank.com/{username}',
     Codepen: 'https://codepen.io/{username}',
     HackerOne: 'https://hackerone.com/{username}',
@@ -57,22 +56,33 @@ export class UsernameSearchService {
     GitBook: 'https://{username}.gitbook.io',
   };
 
-  async searchUsername(username: string) {
-    const results = [];
+  constructor() {
+    // Initialize Axios instance with default configurations
+    this.axiosInstance = axios.create({
+      timeout: 5000, // Set a timeout of 5 seconds
+      validateStatus: (status) => status < 500, // Only reject if server error
+    });
+  }
 
-    for (const platform in this.platforms) {
-      const urlTemplate = this.platforms[platform];
-      const url = urlTemplate.replace('{username}', username);
+  private formatUrl(platformUrl: string, username: string): string {
+    return platformUrl.replace('{username}', username);
+  }
+
+  async searchUsername(username: string) {
+    const requests = Object.entries(this.platforms).map(async ([platform, urlTemplate]) => {
+      const url = this.formatUrl(urlTemplate, username);
 
       try {
-        const response = await axios.head(url);
-        if (response.status === 200) {
-          results.push({ platform, status: 'exists', url });
-        }
-      } catch (error) {
-        results.push({ platform, status: 'available', url: null });
+        const response = await this.axiosInstance.head(url);
+        return response.status === 200
+          ? { platform, status: 'exists', url }
+          : { platform, status: 'available', url: null };
+      } catch {
+        return { platform, status: 'available', url: null };
       }
-    }
+    });
+
+    const results = await Promise.all(requests);
 
     return { username, results };
   }

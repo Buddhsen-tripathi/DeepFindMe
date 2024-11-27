@@ -3,9 +3,11 @@
 import { useEffect, useRef } from 'react'
 import { Network, Search, Shield, Zap } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 export default function FeatureSection() {
   const sectionRef = useRef<HTMLElement>(null)
+  const router = useRouter()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -36,33 +38,48 @@ export default function FeatureSection() {
     {
       icon: <Network className="w-12 h-12 text-cyan-400" />,
       title: "People Finder",
-      description: "Aggregate public records, social media, and news mentions."
+      description: "Aggregate public records, social media, and news mentions.",
+      href: "/tools/people-finder"
     },
     {
       icon: <Search className="w-12 h-12 text-cyan-400" />,
       title: "Username Search",
       description: "Search for a username across multiple platforms (Twitter, Instagram, TikTok, etc.)",
-      href:"tools/social-media/username"
+      href: "/tools/social-media/username-search"
     },
     {
       icon: <Shield className="w-12 h-12 text-cyan-400" />,
-      title: "Metadata Extractor ",
-      description: "Analyze files (documents, images, videos) for hidden metadata."
+      title: "Metadata Extractor",
+      description: "Analyze files (documents, images, videos) for hidden metadata.",
+      href: "/tools/metadata-extractor"
     },
     {
       icon: <Zap className="w-12 h-12 text-cyan-400" />,
       title: "IP to Location Tracker",
-      description: "Trace IP addresses to physical locations."
+      description: "Trace IP addresses to physical locations.",
+      href: "/tools/ip-tracker"
     }
   ]
 
+  const handleCardClick = (href: string) => {
+    if (href) {
+      router.push(href)
+    } else {
+      alert("This feature is coming soon!")
+    }
+  }
+
   return (
-    <section className="py-16 bg-gray-900">
+    <section ref={sectionRef} className="py-16 bg-gray-900">
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold mb-12 text-center text-white pb-1">Frequently Used Tools</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {features.map((feature, index) => (
-            <div key={index} className="bg-black bg-opacity-50 p-6 rounded-lg border border-cyan-500 hover:border-cyan-400 transition-colors group hover:bg-cyan-900 hover:bg-opacity-20">
+            <div 
+              key={index} 
+              className="feature-card bg-black bg-opacity-50 p-6 rounded-lg border border-cyan-500 hover:border-cyan-400 transition-colors group hover:bg-cyan-900 hover:bg-opacity-20 cursor-pointer"
+              onClick={() => handleCardClick(feature.href)}
+            >
               <div className="mb-4 flex justify-center group-hover:scale-110 transition-transform duration-300">
                 {feature.icon}
               </div>
