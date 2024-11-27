@@ -51,7 +51,7 @@ export default function FeatureSection() {
       icon: <Shield className="w-12 h-12 text-cyan-400" />,
       title: "Metadata Extractor",
       description: "Analyze files (documents, images, videos) for hidden metadata.",
-      href: "/tools/metadata-extractor"
+      href: "/tools/file-analysis/metadata-extractor"
     },
     {
       icon: <Zap className="w-12 h-12 text-cyan-400" />,

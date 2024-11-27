@@ -5,7 +5,10 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink } from 'lucide-react';
+import * as dotenv from 'dotenv'
+
+dotenv.config
 
 const categories = {
   Social: ["Instagram", "TikTok", "X(Twitter)", "Facebook", "Reddit", "Bluesky"],
@@ -54,7 +57,7 @@ export default function UsernameSearch() {
     setResults([]);
 
     try {
-      const response = await axios.post("http://localhost:5002/username-search", { username });
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/username-search`, { username });
 
       // Insert hard-coded logic for Twitter (X) and Chess.com
       const hardCodedResults = [
@@ -93,10 +96,10 @@ export default function UsernameSearch() {
   }));
 
   return (
-    <section className="py-16">
+    <section className="py-16 bg-gray-900">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold mb-4 text-center">Username Search</h1>
-        <p className="text-lg text-gray-300 mb-8 text-center">
+        <h1 className="text-4xl font-bold mb-4 text-center text-white">Username Search</h1>
+        <p className="text-lg mb-8 text-center text-gray-300 ">
           Use this tool to check if a username exists on various platforms. 
           It covers a wide range of categories including social media, gaming, professional networks, and more.
         </p>
@@ -123,9 +126,9 @@ export default function UsernameSearch() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categorizedResults.map(({ category, platforms }) => (
-            <Card key={category}>
+            <Card key={category} className="bg-black bg-opacity-50 border border-cyan-500 hover:border-cyan-400 transition-colors group hover:bg-cyan-900 hover:bg-opacity-20">
               <CardHeader>
-                <CardTitle className="text-xl font-semibold text-purple-500">
+                <CardTitle className="text-xl font-semibold text-cyan-400">
                   {category}
                 </CardTitle>
               </CardHeader>
@@ -134,19 +137,19 @@ export default function UsernameSearch() {
                   <ul className="space-y-2">
                     {platforms.map((result, index) => (
                       <li key={index} className="flex justify-between items-center">
-                        <span className="text-purple-500">{result.platform}</span>
+                        <span className="text-white">{result.platform}</span>
                         {result.status === "exists" ? (
                           <a
                             href={result.url!}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-purple-500 hover:underline flex items-center"
+                            className="text-cyan-400 hover:underline flex items-center"
                           >
                             Profile Found
                             <ExternalLink className="ml-2 w-4 h-4" />
                           </a>
                         ) : (
-                          <span className="text-green-400">Available</span>
+                          <span className="text-green-500">Available</span>
                         )}
                       </li>
                     ))}
@@ -166,3 +169,4 @@ export default function UsernameSearch() {
     </section>
   );
 }
+
