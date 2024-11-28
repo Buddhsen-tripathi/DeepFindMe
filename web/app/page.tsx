@@ -11,7 +11,7 @@ export default function Home() {
       <main className="flex-grow">
         <HeroSection />
         <FeatureSection />
-        <Sponsor/>
+        <Sponsor />
       </main>
       <Footer />
     </div>

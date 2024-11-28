@@ -5,16 +5,38 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ExternalLink } from 'lucide-react';
-import * as dotenv from 'dotenv'
+import { ExternalLink } from "lucide-react";
+import * as dotenv from "dotenv";
 
-dotenv.config()
+dotenv.config();
 
 const categories = {
-  Social: ["Instagram", "TikTok", "X(Twitter)", "Facebook", "Reddit", "Bluesky"],
+  Social: [
+    "Instagram",
+    "TikTok",
+    "X(Twitter)",
+    "Facebook",
+    "Reddit",
+    "Bluesky",
+  ],
   Video: ["Youtube", "Twitch", "Vimeo", "Rumble", "Dailymotion"],
-  Professional: ["LinkedIn", "Slack", "Fiverr", "GitHub", "GitLab", "Behance", "Trello"],
-  Gaming: ["StreamGroup", "Lichess", "Minecraft", "Chess.com", "osu", "Google PlayStore"],
+  Professional: [
+    "LinkedIn",
+    "Slack",
+    "Fiverr",
+    "GitHub",
+    "GitLab",
+    "Behance",
+    "Trello",
+  ],
+  Gaming: [
+    "StreamGroup",
+    "Lichess",
+    "Minecraft",
+    "Chess.com",
+    "osu",
+    "Google PlayStore",
+  ],
   Blogging: ["Medium", "Hashnode", "Blogger", "Slides"],
   Music: ["Spotify", "SoundCloud", "PromoDJ", "Freesound"],
   Photography: ["Flickr", "Unsplash", "VSCO"],
@@ -57,7 +79,10 @@ export default function UsernameSearch() {
     setResults([]);
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/username-search`, { username });
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/username-search`,
+        { username }
+      );
 
       // Insert hard-coded logic for Twitter (X) and Chess.com
       const hardCodedResults = [
@@ -71,6 +96,11 @@ export default function UsernameSearch() {
           status: "exists",
           url: `https://www.chess.com/member/${username}`,
         },
+        {
+          platform: "Leetcode",
+          status: "exists",
+          url: `https://leetcode.com/u/${username}`,
+        },
       ];
 
       // Merge hard-coded results with API results
@@ -79,7 +109,9 @@ export default function UsernameSearch() {
       setResults(mergedResults);
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.message || "An unexpected error occurred.");
+        setError(
+          err.response?.data?.message || "An unexpected error occurred."
+        );
       } else if (err instanceof Error) {
         setError(err.message || "An unknown error occurred.");
       } else {
@@ -90,18 +122,25 @@ export default function UsernameSearch() {
     }
   };
 
-  const categorizedResults = Object.entries(categories).map(([category, platforms]) => ({
-    category,
-    platforms: results.filter((result) => platforms.includes(result.platform)),
-  }));
+  const categorizedResults = Object.entries(categories).map(
+    ([category, platforms]) => ({
+      category,
+      platforms: results.filter((result) =>
+        platforms.includes(result.platform)
+      ),
+    })
+  );
 
   return (
     <section className="py-16 bg-gray-900">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold mb-4 text-center text-white">Username Search</h1>
+        <h1 className="text-4xl font-bold mb-4 text-center text-white">
+          Username Search
+        </h1>
         <p className="text-lg mb-8 text-center text-gray-300 ">
-          Use this tool to check if a username exists on various platforms. 
-          It covers a wide range of categories including social media, gaming, professional networks, and more.
+          Use this tool to check if a username exists on various platforms. It
+          covers a wide range of categories including social media, gaming,
+          professional networks, and more.
         </p>
         <div className="max-w-md mx-auto mb-8">
           <form onSubmit={handleSubmit}>
@@ -126,7 +165,10 @@ export default function UsernameSearch() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categorizedResults.map(({ category, platforms }) => (
-            <Card key={category} className="bg-black bg-opacity-50 border border-cyan-500 hover:border-cyan-400 transition-colors group hover:bg-cyan-900 hover:bg-opacity-20">
+            <Card
+              key={category}
+              className="bg-black bg-opacity-50 border border-cyan-500 hover:border-cyan-400 transition-colors group hover:bg-cyan-900 hover:bg-opacity-20"
+            >
               <CardHeader>
                 <CardTitle className="text-xl font-semibold text-cyan-400">
                   {category}
@@ -136,7 +178,10 @@ export default function UsernameSearch() {
                 {platforms.length > 0 ? (
                   <ul className="space-y-2">
                     {platforms.map((result, index) => (
-                      <li key={index} className="flex justify-between items-center">
+                      <li
+                        key={index}
+                        className="flex justify-between items-center"
+                      >
                         <span className="text-white">{result.platform}</span>
                         {result.status === "exists" ? (
                           <a
@@ -155,18 +200,20 @@ export default function UsernameSearch() {
                     ))}
                   </ul>
                 ) : (
-                  <p className="text-gray-400">No results found in this category.</p>
+                  <p className="text-gray-400">
+                    No results found in this category.
+                  </p>
                 )}
               </CardContent>
             </Card>
           ))}
         </div>
         <p className="text-sm text-gray-300 text-center mt-8">
-          <em>Note:</em> While this tool provides a quick way to check username availability, 
-          it may not always be 100% accurate due to platform limitations or network issues.
+          <em>Note:</em> While this tool provides a quick way to check username
+          availability, it may not always be 100% accurate due to platform
+          limitations or network issues.
         </p>
       </div>
     </section>
   );
 }
-

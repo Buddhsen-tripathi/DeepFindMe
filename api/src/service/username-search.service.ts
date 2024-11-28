@@ -5,7 +5,7 @@ import axios, { AxiosInstance } from 'axios';
 export class UsernameSearchService {
   private readonly axiosInstance: AxiosInstance;
 
-  // List of platforms with URL templates
+  // Platforms list with LinkedIn using search engine method
   private readonly platforms = {
     Instagram: 'https://instagram.com/{username}',
     TikTok: 'https://www.tiktok.com/@{username}',
@@ -28,7 +28,8 @@ export class UsernameSearchService {
     Lichess: 'https://lichess.org/@/{username}',
     Minecraft: 'https://minecraft.net/profile/{username}',
     osu: 'https://osu.ppy.sh/u/{username}',
-    'Google PlayStore': 'https://play.google.com/store/apps/developer?id={username}',
+    'Google PlayStore':
+      'https://play.google.com/store/apps/developer?id={username}',
     Medium: 'https://medium.com/@{username}',
     Hashnode: 'https://hashnode.com/@{username}',
     Blogger: 'https://{username}.blogspot.com',
@@ -46,7 +47,7 @@ export class UsernameSearchService {
     npm: 'https://www.npmjs.com/~{username}',
     PyPi: 'https://pypi.org/user/{username}',
     DockerHub: 'https://hub.docker.com/u/{username}',
-    Replit : 'https://replit.com/@{username}',
+    Replit: 'https://replit.com/@{username}',
     Leetcode: 'https://leetcode.com/u/{username}',
     HackerRank: 'https://www.hackerrank.com/{username}',
     Codepen: 'https://codepen.io/{username}',
@@ -57,33 +58,87 @@ export class UsernameSearchService {
   };
 
   constructor() {
-    // Initialize Axios instance with default configurations
+    // Initialize Axios instance with enhanced configuration
     this.axiosInstance = axios.create({
-      timeout: 5000, // Set a timeout of 5 seconds
-      validateStatus: (status) => status < 500, // Only reject if server error
+      timeout: 5000, // 5 seconds timeout
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+      },
     });
   }
 
-  private formatUrl(platformUrl: string, username: string): string {
-    return platformUrl.replace('{username}', username);
+  // Helper function to format URLs
+  private formatUrl(platform: string, username: string): string | null {
+    if (platform === 'LinkedIn') {
+      return `https://www.google.com/search?q=site:linkedin.com/in+${encodeURIComponent(
+        username,
+      )}`;
+    }
+
+    const template = this.platforms[platform];
+    return template.replace('{username}', encodeURIComponent(username));
   }
 
+  // Method to search for a username
   async searchUsername(username: string) {
-    const requests = Object.entries(this.platforms).map(async ([platform, urlTemplate]) => {
-      const url = this.formatUrl(urlTemplate, username);
+    if (!username || username.trim() === '') {
+      throw new Error('Username cannot be empty');
+    }
 
-      try {
-        const response = await this.axiosInstance.head(url);
-        return response.status === 200
-          ? { platform, status: 'exists', url }
-          : { platform, status: 'available', url: null };
-      } catch {
-        return { platform, status: 'available', url: null };
-      }
-    });
+    const requests = Object.entries(this.platforms).map(
+      async ([platform, _urlTemplate]) => {
+        const url = this.formatUrl(platform, username);
 
-    const results = await Promise.all(requests);
+        if (platform === 'LinkedIn') {
+          // Special handling for LinkedIn via search engine
+          try {
+            const response = await this.axiosInstance.get(url);
+            const exists = response.data.includes('linkedin.com/in/');
 
-    return { username, results };
+            return {
+              platform,
+              status: exists ? 'exists' : 'available',
+              url: exists ? `https://linkedin.com/in/${username}` : null,
+            };
+          } catch (error) {
+            return {
+              platform,
+              status: 'error',
+              url: null,
+              error: error.message,
+            };
+          }
+        }
+
+        // Default platform handling
+        try {
+          const response = await this.axiosInstance.head(url);
+          return {
+            platform,
+            status: response.status === 200 ? 'exists' : 'available',
+            url: response.status === 200 ? url : null,
+          };
+        } catch (error) {
+          return {
+            platform,
+            status: 'error',
+            url: null,
+            error: error.message,
+          };
+        }
+      },
+    );
+
+    const results = await Promise.allSettled(requests);
+
+    const processedResults = results
+      .filter((result) => result.status === 'fulfilled')
+      .map((result) => (result as PromiseFulfilledResult<any>).value);
+
+    return {
+      username,
+      results: processedResults,
+    };
   }
 }
