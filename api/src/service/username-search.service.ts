@@ -48,7 +48,6 @@ export class UsernameSearchService {
     PyPi: 'https://pypi.org/user/{username}',
     DockerHub: 'https://hub.docker.com/u/{username}',
     Replit: 'https://replit.com/@{username}',
-    Leetcode: 'https://leetcode.com/u/{username}',
     HackerRank: 'https://www.hackerrank.com/{username}',
     Codepen: 'https://codepen.io/{username}',
     HackerOne: 'https://hackerone.com/{username}',
