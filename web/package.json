@@ -14,17 +14,19 @@
     "react-dom": "$react-dom"
   },
   "dependencies": {
+    "@radix-ui/react-toast": "^1.2.2",
     "axios": "^1.7.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
-    "framer-motion": "^11.12.0",
+    "framer-motion": "^11.13.0",
     "lucide-react": "^0.460.0",
     "next": "15.0.3",
     "radix-ui": "^1.0.1",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "react-dropzone": "^14.3.5",
+    "react-intersection-observer": "^9.13.1",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "three": "^0.170.0"

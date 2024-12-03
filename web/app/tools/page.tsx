@@ -15,13 +15,13 @@ const toolCategories = [
     name: "Geolocation Tools",
     icon: <MapPin className="w-12 h-12 text-cyan-400" />,
     description: "Extract location data from images and track IP addresses.",
-    link: "/tools/geolocation"
+    link: "/tools/geo-location"
   },
   {
     name: "Email & Domain Investigation",
     icon: <Mail className="w-12 h-12 text-cyan-400" />,
     description: "Validate emails, lookup domains, and perform reverse searches.",
-    link: "/tools/email-domain"
+    link: "/tools/email-and-domain"
   },
   {
     name: "File Analysis Tools",
@@ -30,22 +30,22 @@ const toolCategories = [
     link: "/tools/file-analysis"
   },
   {
-    name: "People Search Tools",
+    name: "People Finder Tools",
     icon: <Search className="w-12 h-12 text-cyan-400" />,
     description: "Find people, perform facial recognition, and deep search public records.",
-    link: "/tools/people-search"
+    link: "/tools/people-finder"
   },
   {
     name: "Network & Cyber Tools",
     icon: <Network className="w-12 h-12 text-cyan-400" />,
     description: "Discover subdomains, scan ports, and analyze DNS records.",
-    link: "/tools/network-cyber"
+    link: "/tools/network-and-cyber"
   },
   {
     name: "Dark Web Exploration Tools",
     icon: <Shield className="w-12 h-12 text-cyan-400" />,
     description: "Check dark web links and scan for data breaches.",
-    link: "/tools/dark-web"
+    link: "/tools/dark-web-exploration"
   }
 ]
 
