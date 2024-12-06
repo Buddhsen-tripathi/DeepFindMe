@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: "DeepFind.Me",
@@ -13,7 +14,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <meta name="google-adsense-account" content="ca-pub-8627226194830904"></meta>
+      <head>
+        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8627226194830904"
+          crossOrigin="anonymous" />
+      </head>
       <body>
         {children}
       </body>
