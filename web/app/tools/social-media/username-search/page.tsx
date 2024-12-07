@@ -11,41 +11,21 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 const categories = {
-  Social: [
-    "Instagram",
-    "TikTok",
-    "X(Twitter)",
-    "Facebook",
-    "Reddit",
-    "Bluesky",
-  ],
-  Video: ["Youtube", "Twitch", "Vimeo", "Rumble", "Dailymotion"],
-  Professional: [
-    "LinkedIn",
-    "Slack",
-    "Fiverr",
-    "GitHub",
-    "GitLab",
-    "Behance",
-    "Trello",
-  ],
-  Gaming: [
-    "StreamGroup",
-    "Lichess",
-    "Minecraft",
-    "Chess.com",
-    "osu",
-    "Google PlayStore",
-  ],
+  Social: ["Instagram","Twitter","Facebook","Reddit","Bluesky","Mastodon","VK","Pinterest"],
+  Video: ["YouTube","Twitch","Vimeo","Rumble","Dailymotion"],
+  Professional: ["LinkedIn","Slack","Fiverr","GitHub","GitLab","Behance","Trello"],
+  Gaming: ["StreamGroup","Lichess","Minecraft","Chess.com","osu","Google PlayStore"],
   Blogging: ["Medium", "Hashnode", "Blogger", "Slides"],
   Music: ["Spotify", "SoundCloud", "PromoDJ", "Freesound"],
   Photography: ["Flickr", "Unsplash", "VSCO"],
-  Messaging: ["Telegram", "Signal", "Kik"],
+  Messaging: ["Telegram", "Signal", "Kik","Imgur"],
   "Software Development": [
     "GitHub",
     "GitLab",
     "npm",
     "PyPi",
+    "DEV Community",
+    "Apple Developer",
     "DockerHub",
     "Replit.com",
     "Leetcode",
@@ -86,11 +66,6 @@ export default function UsernameSearch() {
 
       // Insert hard-coded logic for Twitter (X) and Chess.com
       const hardCodedResults = [
-        {
-          platform: "X(Twitter)",
-          status: "exists",
-          url: `https://www.x.com/${username}`,
-        },
         {
           platform: "Chess.com",
           status: "exists",
