@@ -7,10 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import * as dotenv from "dotenv";
 
-dotenv.config()
+dotenv.config();
 
 export default function DomainWHOISLookup() {
-
     const [domain, setDomain] = useState("");
     const [results, setResults] = useState<Record<string, string | null>>({});
     const [loading, setLoading] = useState(false);
@@ -50,48 +49,52 @@ export default function DomainWHOISLookup() {
     };
 
     const formatWhoisData = (data: Record<string, string | null>) => {
-
         const formatDate = (dateString: string | null) => {
             if (!dateString || typeof dateString !== "string") return "Not Available";
-        
+
             const firstDate = dateString.split(/T| /)[0];
-        
+
             const date = new Date(firstDate);
             if (isNaN(date.getTime())) return "Invalid Date";
-        
+
             return date.toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
             });
-          };
+        };
+
+        const formatWithBreaks = (str: string | null) => {
+            if (!str) return "Not Available";
+            return str.split(" ").join("\n");
+        };
 
         return {
             "Domain Information": {
-                "Domain Name": data.domain_name,
+                "Domain Name": data.domainName,
                 Registrar: data.registrar,
-                "Registrar URL": data.registrar_url,
-                "Whois Server": data.whois_server,
-                "Creation Date": formatDate(data.creation_date),
-                "Expiration Date": formatDate(data.expiration_date),
-                "Updated Date": formatDate(data.updated_date),
+                "Registrar URL": data.registrarUrl,
+                "Whois Server": data.registrarWhoisServer,
+                "Creation Date": formatDate(data.creationDate),
+                "Expiration Date": formatDate(data.registrarRegistrationExpirationDate),
+                "Updated Date": formatDate(data.updatedDate),
             },
-            "Name Servers": Array.isArray(data.name_servers)
-                ? data.name_servers.join("\n")
-                : data.name_servers || "Not Available",
+            "Name Servers": Array.isArray(data.nameServer)
+                ? data.nameServer.join("\n")
+                : formatWithBreaks(data.nameServer),
             "Registrant Information": {
-                Organization: data.org,
-                Country: data.country,
-                State: data.state,
-                Address: data.address,
-                "Postal Code": data.registrant_postal_code,
+                Organization: data.registrantOrganization,
+                Country: data.registrantCountry,
+                State: data.registrantStateProvince,
+                "Registrant Email": data.registrantEmail,
             },
-            Status: Array.isArray(data.status)
-                ? data.status.join("\n")
-                : data.status || "Not Available",
-            "Abuse Emails": Array.isArray(data.emails)
-                ? data.emails.join("\n")
-                : data.emails || "Not Available",
+            Status: Array.isArray(data.domainStatus)
+                ? data.domainStatus.join("\n")
+                : formatWithBreaks(data.domainStatus),
+            "Abuse Contact": {
+                Email: data.registrarAbuseContactEmail,
+                Phone: data.registrarAbuseContactPhone,
+            },
             DNSSEC: data.dnssec || "unsigned",
         };
     };

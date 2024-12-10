@@ -55,9 +55,9 @@ export default function FeatureSection() {
     },
     {
       icon: <Zap className="w-12 h-12 text-cyan-400" />,
-      title: "IP to Location Tracker",
+      title: "IP Geolocation Lookup",
       description: "Trace IP addresses to physical locations.",
-      href: "/tools/ip-tracker"
+      href: "/tools/geo-location/ip-geolocation-lookup"
     }
   ]
 

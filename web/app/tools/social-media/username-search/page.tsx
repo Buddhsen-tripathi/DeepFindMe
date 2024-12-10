@@ -76,6 +76,11 @@ export default function UsernameSearch() {
           status: "exists",
           url: `https://leetcode.com/u/${username}`,
         },
+        {
+          platform: "Twitter",
+          status: "exists",
+          url: `https://x.com/${username}`
+        }
       ];
 
       // Merge hard-coded results with API results
