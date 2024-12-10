@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Search, User, Menu, X } from "lucide-react";
@@ -8,18 +8,40 @@ import { Search, User, Menu, X } from "lucide-react";
 export default function NavBar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchOpen, setIsSearchOpen] = useState(false); // Toggle search visibility
+  const searchRef = useRef<HTMLDivElement | null>(null); // Reference to the search input area
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
     };
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    // Close the search input when clicked outside
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setIsSearchOpen(false); // Close the search input
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("mousedown", handleClickOutside); // Clean up the event listener
+    };
   }, []);
 
-  const navClassName = `fixed w-full z-50 transition-all duration-300 ${
-    isScrolled || isOpen ? "bg-gray-900 bg-opacity-90 backdrop-blur-md" : "bg-transparent"
-  }`;
+  const navClassName = `fixed w-full z-50 transition-all duration-300 ${isScrolled || isOpen ? "bg-gray-900 bg-opacity-90 backdrop-blur-md" : "bg-transparent"
+    }`;
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Search for:", searchQuery);
+    // You can redirect to a search results page if needed
+    // router.push(`/search?q=${searchQuery}`);
+  };
 
   return (
     <nav className={navClassName}>
@@ -40,7 +62,10 @@ export default function NavBar() {
             <NavLink href="/contact">Contact</NavLink>
           </div>
           <div className="flex items-center space-x-4">
-            <button className="text-white hover:text-cyan-400 transition-colors">
+            <button
+              className="text-white hover:text-cyan-400 transition-colors"
+              onClick={() => setIsSearchOpen(!isSearchOpen)} // Toggle search input visibility
+            >
               <Search size={20} />
             </button>
             <button className="text-white hover:text-cyan-400 transition-colors">
@@ -57,6 +82,31 @@ export default function NavBar() {
           </div>
         </div>
       </div>
+
+      {/* Search Input Field (visible when isSearchOpen is true) */}
+      {isSearchOpen && (
+        <div
+          ref={searchRef}
+          className="absolute top-16 left-1/2 transform -translate-x-1/2 bg-gray-800 bg-opacity-90 p-4 rounded-md w-full md:w-96"
+        >
+          <form onSubmit={handleSearchSubmit} className="flex items-center space-x-2">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search..."
+              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+            <button
+              type="submit"
+              className="px-4 py-2 text-white bg-cyan-500 rounded-md hover:bg-cyan-400"
+            >
+              Search
+            </button>
+          </form>
+        </div>
+      )}
+
       {/* Mobile menu */}
       {isOpen && (
         <div id="mobile-menu" className="md:hidden mt-4 bg-black bg-opacity-90 backdrop-blur-md">

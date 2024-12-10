@@ -15,7 +15,7 @@ export default function Blogs() {
           We are putting the finishing touches on our blog. Check back soon for new articles and updates!
         </p>
         <div className="flex justify-center">
-          <Link href="">
+          <Link href="/">
           <button className="px-4 py-2 bg-cyan-500 text-white font-semibold rounded-lg hover:bg-cyan-600 transition">
             Back to Home
           </button>
