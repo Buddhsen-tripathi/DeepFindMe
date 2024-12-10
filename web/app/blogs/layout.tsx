@@ -7,9 +7,9 @@ export default function ToolsLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="flex flex-col min-h-screen bg-gray-900 text-white">
       <NavBar />
-      <main className="pt-16">
+      <main className="pt-16 flex-grow">
         {children}
       </main>
       <Footer />

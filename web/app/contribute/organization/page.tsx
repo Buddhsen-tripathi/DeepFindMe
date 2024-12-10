@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -19,14 +19,6 @@ export default function OrganizationContactPage() {
         setFormData(prevState => ({ ...prevState, [name]: value }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        // Here you would typically send the form data to your backend
-        console.log('Form submitted:', formData);
-        // After successful submission, redirect to a thank you page
-        router.push('/contribute/thank-you');
-    };
-
     return (
         <main className='flex flex-col h-screen'>
             <NavBar />
@@ -36,7 +28,11 @@ export default function OrganizationContactPage() {
                     <p className="text-xl mb-8 text-center text-gray-300">
                         Interested in collaborating with us? Fill out the form below and we'll get back to you soon.
                     </p>
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <form
+                        action="https://openformstack.com/f/cm48id1ez0000lmlhk3d3m1aj"
+                        method="POST"
+                        className="space-y-6"
+                    >
                         <div>
                             <label htmlFor="organizationName" className="block text-sm font-medium text-gray-300 mb-2">
                                 Organization Name

@@ -20,7 +20,7 @@ export default function ContactPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-white">
-      <NavBar/>
+      <NavBar />
       <main className="flex-grow pt-8">
         <section className="py-16">
           <div className="container mx-auto px-4 max-w-2xl">
@@ -28,7 +28,10 @@ export default function ContactPage() {
             <p className="text-xl mb-12 text-center text-gray-300">
               Have questions or feedback? We'd love to hear from you.
             </p>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form
+              action="https://openformstack.com/f/cm48ibb5h000054vtfl6ngcrb"
+              method="POST"
+              className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
                   Name
@@ -84,7 +87,7 @@ export default function ContactPage() {
           </div>
         </section>
       </main>
-      <Footer/>
+      <Footer />
     </div>
   )
 }
