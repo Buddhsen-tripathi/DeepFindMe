@@ -71,6 +71,7 @@ const Login: React.FC = () => {
         <section className="py-20">
           <div className="container mx-auto px-4">
             <div className="text-center mb-8">
+              <Link href="\">
               <Image
                 src="/logo-white.png"
                 alt="Logo"
@@ -78,6 +79,7 @@ const Login: React.FC = () => {
                 height={50}
                 className="mx-auto"
               />
+              </Link>
             </div>
 
             <form onSubmit={handleSignIn} className="max-w-lg mx-auto bg-gray-800 p-6 rounded-lg border border-cyan-500">

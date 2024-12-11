@@ -77,4 +77,18 @@ export class SupabaseService {
 
         return user;  // Return the user object
     }
+
+    async getProfileByUserId(userId: string) {
+        const { data, error } = await this.client
+            .from('profiles')
+            .select('username, created_at')
+            .eq('user_id', userId)
+            .single();  // Return single row matching user_id
+
+        if (error) {
+            throw new Error(`Failed to fetch profile: ${error.message}`);
+        }
+
+        return data; // Return the profile data
+    }
 }

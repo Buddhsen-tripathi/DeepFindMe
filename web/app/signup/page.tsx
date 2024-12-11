@@ -74,6 +74,7 @@ const SignUp: React.FC = () => {
         <section className="py-20">
           <div className="container mx-auto px-4">
             <div className="text-center mb-8">
+            <Link href="\">
               <Image
                 src="/logo-white.png"
                 alt="Logo"
@@ -81,6 +82,7 @@ const SignUp: React.FC = () => {
                 height={50}
                 className="mx-auto"
               />
+              </Link>
             </div>
 
             <form

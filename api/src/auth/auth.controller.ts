@@ -1,4 +1,4 @@
-import { Controller, Post, HttpStatus, HttpException, Body } from '@nestjs/common';
+import { Controller, Post, HttpStatus, HttpException, Body, Get, Param } from '@nestjs/common';
 import { SupabaseService } from '../service/supabase.service';
 import { CreateUserDto } from '../dto/create-user.dto';  // For sign-up
 import { SignInDto } from '../dto/sign-in.dto';          // For sign-in validation
@@ -46,6 +46,22 @@ export class AuthController {
             return { message: 'Sign in with GitHub successful', session };
         } catch (error) {
             return { message: `Sign-in with GitHub failed: ${error.message}`, error: error.message };
+        }
+    }
+
+    @Get('profile/:userId')
+    async getProfile(@Param('userId') userId: string) {
+        try {
+            // Fetch the user profile from the 'profiles' table using the userId
+            const profile = await this.supabaseService.getProfileByUserId(userId);
+
+            if (!profile) {
+                throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
+            }
+
+            return profile; // Return the profile data
+        } catch (error) {
+            throw new HttpException('Error fetching profile', HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
