@@ -9,19 +9,26 @@ export default function NavBar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isSearchOpen, setIsSearchOpen] = useState(false); // Toggle search visibility
-  const searchRef = useRef<HTMLDivElement | null>(null); // Reference to the search input area
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); // Track login status
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState<boolean>(false); // User menu toggle
+  const searchRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    // Check login status from localStorage
+    const loggedInStatus = localStorage.getItem("isLoggedIn");
+    if (loggedInStatus === "true") {
+      setIsLoggedIn(true);
+    }
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
     };
     window.addEventListener("scroll", handleScroll);
 
-    // Close the search input when clicked outside
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
-        setIsSearchOpen(false); // Close the search input
+        setIsSearchOpen(false);
       }
     };
 
@@ -29,7 +36,7 @@ export default function NavBar() {
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      document.removeEventListener("mousedown", handleClickOutside); // Clean up the event listener
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -39,8 +46,17 @@ export default function NavBar() {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Search for:", searchQuery);
-    // You can redirect to a search results page if needed
-    // router.push(`/search?q=${searchQuery}`);
+  };
+
+  const handleSignOut = () => {
+    // Clear login status
+    localStorage.removeItem("isLoggedIn");
+    setIsLoggedIn(false);
+    console.log("User signed out");
+  };
+
+  const toggleUserMenu = () => {
+    setIsUserMenuOpen(!isUserMenuOpen);
   };
 
   return (
@@ -64,13 +80,38 @@ export default function NavBar() {
           <div className="flex items-center space-x-4">
             <button
               className="text-white hover:text-cyan-400 transition-colors"
-              onClick={() => setIsSearchOpen(!isSearchOpen)} // Toggle search input visibility
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
             >
               <Search size={20} />
             </button>
-            <button className="text-white hover:text-cyan-400 transition-colors">
-              <User size={20} />
-            </button>
+            {isLoggedIn ? (
+              <>
+                <div className="relative">
+                  <button
+                    onClick={toggleUserMenu}
+                    className="text-white hover:text-cyan-400 transition-colors flex items-center"
+                  >
+                    <User size={20} />
+                  </button>
+                  {isUserMenuOpen && (
+                    <div className="absolute right-0 bg-gray-800 text-white rounded-md mt-2 w-40 z-50">
+                      <Link href="/profile" className="block px-4 py-2 hover:bg-gray-700">View Profile</Link>
+                      <button
+                        onClick={handleSignOut}
+                        className="block w-full px-4 py-2 text-left hover:bg-gray-700"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              <>
+                <NavLink href="/login">Login</NavLink>
+                <NavLink href="/signup">Sign Up</NavLink>
+              </>
+            )}
             <button
               aria-expanded={isOpen}
               aria-controls="mobile-menu"
@@ -83,7 +124,6 @@ export default function NavBar() {
         </div>
       </div>
 
-      {/* Search Input Field (visible when isSearchOpen is true) */}
       {isSearchOpen && (
         <div
           ref={searchRef}
@@ -107,13 +147,21 @@ export default function NavBar() {
         </div>
       )}
 
-      {/* Mobile menu */}
       {isOpen && (
         <div id="mobile-menu" className="md:hidden mt-4 bg-black bg-opacity-90 backdrop-blur-md">
           <div className="container mx-auto px-4 py-2">
             <MobileNavLink href="/tools">Tools</MobileNavLink>
             <MobileNavLink href="/blogs">Blogs</MobileNavLink>
             <MobileNavLink href="/contact">Contact</MobileNavLink>
+
+            {isLoggedIn ? (
+              <main/>
+            ) : (
+              <>
+                <MobileNavLink href="/login">Login</MobileNavLink>
+                <MobileNavLink href="/signup">Sign Up</MobileNavLink>
+              </>
+            )}
           </div>
         </div>
       )}
@@ -129,9 +177,9 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
   );
 }
 
-function MobileNavLink({ href, children }: { href: string; children: React.ReactNode }) {
+function MobileNavLink({ href, children, onClick }: { href: string, children: React.ReactNode, onClick?: () => void }) {
   return (
-    <Link href={href} className="block py-2 text-gray-300 hover:text-cyan-400 transition-colors">
+    <Link href={href} className="block py-2 text-gray-300 hover:text-cyan-400 transition-colors" onClick={onClick}>
       {children}
     </Link>
   );

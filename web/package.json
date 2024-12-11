@@ -27,6 +27,7 @@
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "react-dropzone": "^14.3.5",
+    "react-icons": "^5.4.0",
     "react-intersection-observer": "^9.13.1",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
