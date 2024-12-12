@@ -138,7 +138,7 @@ export default function ProfilePage() {
                 <CardContent>
                 <Input
                     type="password"
-                    placeholder="Old Password"
+                    placeholder="Current Password"
                     value={currentPassword}
                     onChange={(e) => setOldPassword(e.target.value)}
                     className="mb-4 text-white"

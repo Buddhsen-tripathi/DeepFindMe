@@ -69,7 +69,11 @@ export class SupabaseService {
         const { user } = data;
         const { error: profileError } = await this.client
             .from('profiles')
-            .insert([{ user_id: user.id, username }]);  // Insert username into profiles table
+            .insert([{ 
+                user_id: user.id, 
+                username,         // Ensure username is defined
+                email: email      // Include email in the same object
+            }]);
 
         if (profileError) {
             throw new Error(`Failed to create user profile: ${profileError.message}`);

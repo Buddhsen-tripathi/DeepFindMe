@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Search, User, Menu, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function NavBar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -13,6 +14,7 @@ export default function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); // Track login status
   const [isUserMenuOpen, setIsUserMenuOpen] = useState<boolean>(false); // User menu toggle
   const searchRef = useRef<HTMLDivElement | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     // Check login status from localStorage
@@ -53,6 +55,7 @@ export default function NavBar() {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("user_uuid");
     setIsLoggedIn(false);
+    router.push("/");
     console.log("User signed out");
   };
 
