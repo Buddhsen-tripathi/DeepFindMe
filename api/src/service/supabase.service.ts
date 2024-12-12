@@ -81,7 +81,7 @@ export class SupabaseService {
     async getProfileByUserId(userId: string) {
         const { data, error } = await this.client
             .from('profiles')
-            .select('username, created_at')
+            .select('username, created_at,email')
             .eq('user_id', userId)
             .single();  // Return single row matching user_id
 
@@ -89,6 +89,21 @@ export class SupabaseService {
             throw new Error(`Failed to fetch profile: ${error.message}`);
         }
 
-        return data; // Return the profile data
+        return data;
     }
+
+    // Method to change the user's password
+    async changePassword(newPassword: string, currentPassword: string) {
+        const { data, error } = await this.client.auth.updateUser({ password: newPassword });
+
+        if (error) {
+            throw new Error(`Failed to update password: ${error.message}`);
+        }
+
+        // If required, validate the current password (this is typically done by re-authenticating)
+        // This approach assumes the user is already authenticated in the session
+
+        return data.user;  // Return updated user data
+    }
+    
 }

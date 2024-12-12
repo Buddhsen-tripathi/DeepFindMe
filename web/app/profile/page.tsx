@@ -16,15 +16,24 @@ export default function ProfilePage() {
   } | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [currentPassword,setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
+      const userUuid = localStorage.getItem("user_uuid");
       setLoading(true);
+
+      if (!userUuid) {
+        setError("No user found. Please log in.");
+        setLoading(false);
+        return;
+      }
+
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/auth/profile/01fb366e-6277-44aa-99fd-de839275300f`
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/profile/${userUuid}`
         );
         setProfile(response.data);
       } catch (err: unknown) {
@@ -50,7 +59,7 @@ export default function ProfilePage() {
     setLoading(true);
     setError(null);
     try {
-      await axios.put(`/api/profile/change-password`, { password: newPassword });
+      await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/auth/change-password`, { newPassword, currentPassword });
       alert("Password updated successfully.");
       setNewPassword("");
     } catch (err: unknown) {
@@ -68,7 +77,7 @@ export default function ProfilePage() {
     setLoading(true);
     setError(null);
     try {
-      await axios.delete(`/api/profile/delete-account`);
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/auth/delete-account`);
       alert("Account deleted successfully.");
       // Redirect or handle post-deletion
     } catch (err: unknown) {
@@ -127,12 +136,19 @@ export default function ProfilePage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
+                <Input
+                    type="password"
+                    placeholder="Old Password"
+                    value={currentPassword}
+                    onChange={(e) => setOldPassword(e.target.value)}
+                    className="mb-4 text-white"
+                  />
                   <Input
                     type="password"
                     placeholder="New Password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="mb-4"
+                    className="mb-4 text-white"
                   />
                   <Button
                     onClick={handlePasswordChange}

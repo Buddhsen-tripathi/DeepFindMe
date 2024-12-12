@@ -1,4 +1,4 @@
-import { Controller, Post, HttpStatus, HttpException, Body, Get, Param } from '@nestjs/common';
+import { Controller, Post, HttpStatus, HttpException, Body, Get, Param, Patch } from '@nestjs/common';
 import { SupabaseService } from '../service/supabase.service';
 import { CreateUserDto } from '../dto/create-user.dto';  // For sign-up
 import { SignInDto } from '../dto/sign-in.dto';          // For sign-in validation
@@ -62,6 +62,17 @@ export class AuthController {
             return profile; // Return the profile data
         } catch (error) {
             throw new HttpException('Error fetching profile', HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Patch('change-password')
+    async changePassword(@Body() body: { newPassword: string, currentPassword: string }) {
+        const { newPassword, currentPassword } = body;
+        try {
+            const user = await this.supabaseService.changePassword(newPassword, currentPassword);
+            return { message: 'Password changed successfully', user };
+        } catch (error) {
+            throw new HttpException(`Failed to change password: ${error.message}`, HttpStatus.BAD_REQUEST);
         }
     }
 }

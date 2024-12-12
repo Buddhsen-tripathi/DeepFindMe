@@ -13,7 +13,7 @@ dotenv.config();
 
 interface SignInResponse {
   message: string;
-  user?: {
+  session: {
     id: string;
     email: string;
     [key: string]: any;
@@ -35,10 +35,10 @@ const Login: React.FC = () => {
     try {
       const response = await axios.post<SignInResponse>(`${process.env.NEXT_PUBLIC_API_URL}/auth/signin`, { email, password });
       setSuccess(response.data.message);
-      console.log('User data:', response.data.user);
 
       // Save login state (e.g., to localStorage or a global state like context)
       localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('user_uuid',response.data.session.id)
       router.push('/login/success');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Something went wrong.');

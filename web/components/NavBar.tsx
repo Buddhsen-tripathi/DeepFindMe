@@ -51,6 +51,7 @@ export default function NavBar() {
   const handleSignOut = () => {
     // Clear login status
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("user_uuid");
     setIsLoggedIn(false);
     console.log("User signed out");
   };
