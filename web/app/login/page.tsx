@@ -48,7 +48,7 @@ const Login: React.FC = () => {
   const handleGoogleSignIn = async () => {
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signin-google`);
-      window.location.href = response.data.url;
+      window.location.href = response.data.session.url;
     } catch (error: any) {
       console.error('Google sign-in error:', error);
       setError('Google sign-in failed');
