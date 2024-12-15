@@ -16,6 +16,7 @@ const OAuthCallback = () => {
 
         if (error) {
             // Handle error, maybe show an error page
+            console.error("OAuth error:", error);
             router.push('/login');
             return;
         }

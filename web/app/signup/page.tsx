@@ -66,7 +66,7 @@ const SignUp: React.FC = () => {
 
   const handleOAuthSignUp = async (provider: "google" | "github") => {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/sign-${provider}`);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signin-${provider}`);
       window.location.href = response.data.session.url;
     } catch (error: any) {
       console.error(`${provider} sign-up error:`, error);
