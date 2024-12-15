@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import * as dotenv from 'dotenv';
-import { SignInDto } from '../dto/sign-in.dto';
+import { SignInDto } from '../dto/sign-in.dto';  // For email/password sign-in validation
 import { CreateUserDto } from '../dto/create-user.dto';
 
 dotenv.config();
@@ -34,52 +34,7 @@ export class SupabaseService {
             throw new Error(`Failed to sign in with ${provider}: ${error.message}`);
         }
 
-        // `data` will contain the URL for OAuth redirection
-        if (!data || !data.url) {
-            throw new Error(`OAuth flow URL is missing. Check your configuration.`);
-        }
-
-        const { data: sessionData, error: authError } = await this.client.auth.getSession();
-
-        if (authError) {
-            throw new Error(`Failed to get session: ${authError.message}`);
-        }
-
-        if (!sessionData || !sessionData.session) {
-            throw new Error('No session data available after OAuth.');
-        }
-
-        const { session } = sessionData;
-
-        // Now you can safely access the user and session
-        const user = session?.user; // user is part of session
-        if (!user) {
-            throw new Error('User data is missing after OAuth sign-in.');
-        }
-
-        const { access_token, refresh_token, expires_at } = session;
-
-        // Store tokens securely (e.g., in your session store or database)
-        // Ensure that refresh_token and access_token are kept private and secure
-
-        // Optional: Check if user exists in your profiles table and create profile if needed
-        const { data: profile, error: profileError } = await this.client
-            .from('profiles')
-            .select('id')
-            .eq('user_id', user.id)
-            .single();
-
-        if (!profile && !profileError) {
-            const { error: insertError } = await this.client
-                .from('profiles')
-                .insert([{ user_id: user.id, email: user.email, username: user.user_metadata.full_name }]);
-
-            if (insertError) {
-                throw new Error(`Failed to create user profile: ${insertError.message}`);
-            }
-        }
-
-        return { user, session, access_token, refresh_token, expires_at };  // Return both user and session for further use
+        return data; // Contains user information and session details
     }
 
     // Method to sign in with email and password
@@ -98,6 +53,7 @@ export class SupabaseService {
         return data.user;
     }
 
+
     // Method to create a user with email and password
     async createUser(createUserDto: CreateUserDto) {
         const { email, password, username } = createUserDto;
@@ -113,12 +69,11 @@ export class SupabaseService {
         const { user } = data;
         const { error: profileError } = await this.client
             .from('profiles')
-            .insert([{
-                user_id: user.id,
+            .insert([{ 
+                user_id: user.id, 
                 username,         // Ensure username is defined
                 email: email      // Include email in the same object
             }]);
-
 
         if (profileError) {
             throw new Error(`Failed to create user profile: ${profileError.message}`);
@@ -154,5 +109,5 @@ export class SupabaseService {
 
         return data.user;  // Return updated user data
     }
-
+    
 }
