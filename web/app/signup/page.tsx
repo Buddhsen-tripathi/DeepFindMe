@@ -66,12 +66,12 @@ const SignUp: React.FC = () => {
 
   const handleOAuthSignUp = async (provider: "google" | "github") => {
     try {
-          const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signin-${provider}`);
-          window.location.href = response.data.session.url;
-        } catch (error: any) {
-          console.error(`${provider} sign-up error:`, error);
-          setError(`${provider} sign-up failed`);
-        }
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/sign-${provider}`);
+      window.location.href = response.data.session.url;
+    } catch (error: any) {
+      console.error(`${provider} sign-up error:`, error);
+      setError(`${provider} sign-up failed`);
+    }
   };
 
   return (
@@ -80,14 +80,14 @@ const SignUp: React.FC = () => {
         <section className="py-20">
           <div className="container mx-auto px-4">
             <div className="text-center mb-8">
-            <Link href="\">
-              <Image
-                src="/logo-white.png"
-                alt="Logo"
-                width={150}
-                height={50}
-                className="mx-auto"
-              />
+              <Link href="\">
+                <Image
+                  src="/logo-white.png"
+                  alt="Logo"
+                  width={150}
+                  height={50}
+                  className="mx-auto"
+                />
               </Link>
             </div>
 
