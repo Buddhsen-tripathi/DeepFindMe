@@ -1,82 +1,115 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { toast } from "@/hooks/use-toast"
-import * as dotenv from 'dotenv'
-
-dotenv.config()
+import { useState } from "react";
+import axios from "axios";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function PortScanner() {
-    const [email, setEmail] = useState('')
-    const tool = 'PortScanner'
+  const [ipOrDomain, setIpOrDomain] = useState("");
+  const [portRange, setPortRange] = useState("1-65535");
+  const [results, setResults] = useState<
+    { port: number; status: string }[]
+  >([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
-        try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/notify`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, tool }),
-            })
-            if (response.ok) {
-                toast({
-                    title: "You're on the list!",
-                    description: "We'll ping you when we're live. Stay tuned!",
-                })
-                setEmail('')
-            } else {
-                throw new Error('Failed to submit email')
-            }
-        } catch (error) {
-            toast({
-                title: "Oops!",
-                description: "Something went wrong. Please try again later.",
-                variant: 'destructive',
-            })
-        }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!ipOrDomain.trim()) {
+      setError("Please enter a valid IP address or domain.");
+      return;
     }
 
-    return (
-        <section className="flex-auto py-16">
-            <div className="container mx-auto px-4">
-                <h1 className="text-4xl font-bold mb-8 text-center text-cyan-400 animate-pulse">
-                    Port Scanner
-                </h1>
-                <p className="text-xl mb-8 text-center text-gray-300">
-                    Identify open ports on a server.
-                    <br></br>
-                    We're leveling up - be the first to know when we drop!
-                </p>
-                <Card className="max-w-md mx-auto mb-12 bg-black bg-opacity-50 border border-cyan-500 hover:border-cyan-400 transition-all transform hover:scale-105">
-                    <CardHeader>
-                        <CardTitle className="text-2xl font-semibold text-cyan-400">
-                            Get Early Access
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <Input
-                                type="email"
-                                placeholder="Drop your email here"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                                className="bg-gray-800 border-cyan-600 text-white placeholder-gray-400"
-                            />
-                            <Button type="submit" className="w-full bg-cyan-600 hover:bg-cyan-700 text-white">
-                                Notify Me
-                            </Button>
-                        </form>
-                    </CardContent>
-                </Card>
-                <p className="text-sm text-gray-400 text-center mt-8">
-                    <em>Heads up:</em> We're cooking up something epic. Our tool will be faster,
-                    more comprehensive, and cooler than ever. Stay in the loop!
-                </p>
+    setLoading(true);
+    setError(null);
+    setResults([]);
+
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/port-scan`,
+        { ipOrDomain, portRange }
+      );
+      setResults(response.data.results);
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        setError(
+          err.response?.data?.message || "An unexpected error occurred."
+        );
+      } else {
+        setError("An unknown error occurred.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <section className="py-16 bg-gray-900">
+      <div className="container mx-auto px-4">
+        <h1 className="text-4xl font-bold mb-4 text-center text-white">
+          Port Scanner
+        </h1>
+        <p className="text-lg mb-8 text-center text-gray-300">
+          Enter an IP address or domain and a port range to scan for open ports.
+        </p>
+        <div className="max-w-md mx-auto mb-8">
+          <form onSubmit={handleSubmit}>
+            <div className="flex flex-col space-y-4">
+              <Input
+                type="text"
+                placeholder="Enter IP or Domain"
+                value={ipOrDomain}
+                onChange={(e) => setIpOrDomain(e.target.value)}
+                required
+              />
+              <Input
+                type="text"
+                placeholder="Enter port range (e.g., 20-80)"
+                value={portRange}
+                onChange={(e) => setPortRange(e.target.value)}
+              />
+              <Button type="submit" disabled={loading}>
+                {loading ? "Scanning..." : "Scan"}
+              </Button>
             </div>
-        </section>
-    )
+          </form>
+          {error && (
+            <div className="bg-red-500 text-white p-4 rounded-lg mt-4">
+              {error}
+            </div>
+          )}
+        </div>
+        {results.length > 0 && (
+          <Card className="bg-black bg-opacity-50 border border-cyan-500">
+            <CardHeader>
+              <CardTitle className="text-xl font-semibold text-cyan-400">
+                Scan Results
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2">
+                {results.map(({ port, status }, index) => (
+                  <li key={index} className="flex justify-between items-center">
+                    <span className="text-white">Port {port}</span>
+                    <span
+                      className={
+                        status === "open"
+                          ? "text-green-500"
+                          : "text-red-500"
+                      }
+                    >
+                      {status.toUpperCase()}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    </section>
+  );
 }
