@@ -2,7 +2,7 @@ import Footer from "@/components/Footer";
 import NavBar from "@/components/NavBar";
 import { ChevronRight, Play, Pause, RotateCw } from 'lucide-react'
 
-export default function Contribute() {
+export default function Demo() {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <NavBar />
@@ -12,27 +12,13 @@ export default function Contribute() {
           <div className="bg-gray-800 p-8 rounded-lg shadow-lg mb-8">
             <div className="aspect-w-16 aspect-h-9 mb-6">
               <iframe
-                className="w-full h-full rounded-lg"
+                className="w-full h-full min-h-96 rounded-lg"
                 src="https://www.youtube.com/embed/dQw4w9WgXcQ"
                 title="DeepFind.Me Demo Video"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               ></iframe>
-            </div>
-            <div className="flex justify-center space-x-4">
-              <button className="bg-cyan-500 text-black font-bold py-2 px-4 rounded-full hover:bg-cyan-400 transition duration-300 flex items-center">
-                <Play className="mr-2" size={20} />
-                Play
-              </button>
-              <button className="bg-gray-700 text-white font-bold py-2 px-4 rounded-full hover:bg-gray-600 transition duration-300 flex items-center">
-                <Pause className="mr-2" size={20} />
-                Pause
-              </button>
-              <button className="bg-gray-700 text-white font-bold py-2 px-4 rounded-full hover:bg-gray-600 transition duration-300 flex items-center">
-                <RotateCw className="mr-2" size={20} />
-                Restart
-              </button>
             </div>
           </div>
           <div className="grid md:grid-cols-2 gap-8">

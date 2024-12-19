@@ -9,9 +9,10 @@ import { WhoisModule } from './module/whois.module';
 import { IpGeolocationModule } from './module/ip-geolocation.module';
 import { PortScannerModule } from './module/port-scanner.module';
 import { DnsLookupModule } from './module/dns-lookup.module';
+import { ImageLocationModule } from './module/image-location.module';
 
 @Module({
-  imports: [UsernameSearchModule, MetadataModule, NotifyModule, SharedModule,WhoisModule,IpGeolocationModule,PortScannerModule,DnsLookupModule], 
+  imports: [UsernameSearchModule, MetadataModule, NotifyModule, SharedModule,WhoisModule,IpGeolocationModule,PortScannerModule,DnsLookupModule,ImageLocationModule], 
   controllers: [AppController],
   providers: [AppService],
 })
