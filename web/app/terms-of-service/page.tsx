@@ -65,7 +65,7 @@ export default function TermsOfService() {
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4 text-cyan-400">9. Governing Law</h2>
-              <p className="text-gray-300">These Terms of Service shall be governed by and construed in accordance with the laws of [Your Jurisdiction], without regard to its conflict of law provisions.</p>
+              <p className="text-gray-300">These Terms of Service shall be governed by and construed in accordance with the laws of India, without regard to its conflict of law provisions. If you access this service from outside India, you are responsible for compliance with local laws as applicable.</p>
             </section>
 
             <section className="mb-8">

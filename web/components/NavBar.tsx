@@ -82,12 +82,12 @@ export default function NavBar() {
             <NavLink href="/contact">Contact</NavLink>
           </div>
           <div className="flex items-center space-x-4">
-            <button
+            {/* <button
               className="text-white hover:text-cyan-400 transition-colors"
               onClick={() => setIsSearchOpen(!isSearchOpen)}
             >
               <Search size={20} />
-            </button>
+            </button> */}
             {isLoggedIn ? (
               <>
                 <div className="relative">
@@ -157,15 +157,6 @@ export default function NavBar() {
             <MobileNavLink href="/tools">Tools</MobileNavLink>
             <MobileNavLink href="/blogs">Blogs</MobileNavLink>
             <MobileNavLink href="/contact">Contact</MobileNavLink>
-
-            {isLoggedIn ? (
-              <main/>
-            ) : (
-              <>
-                <MobileNavLink href="/login">Login</MobileNavLink>
-                <MobileNavLink href="/signup">Sign Up</MobileNavLink>
-              </>
-            )}
           </div>
         </div>
       )}

@@ -85,7 +85,7 @@ const Login: React.FC = () => {
             <form onSubmit={handleSignIn} className="max-w-lg mx-auto bg-gray-800 p-6 rounded-lg border border-cyan-500">
               <h1 className="text-2xl font-bold text-center mb-6">Sign in to DeepFind.Me</h1>
 
-              <div className="flex gap-4 justify-center mb-6">
+              {/* <div className="flex gap-4 justify-center mb-6">
                 <button type="button" onClick={handleGoogleSignIn} className="flex items-center gap-2 bg-white text-gray-900 font-semibold py-2 px-4 rounded hover:bg-gray-100 transition-all">
                   <FcGoogle className="w-5 h-5" />
                   Sign in with Google
@@ -99,7 +99,7 @@ const Login: React.FC = () => {
               <div className="relative text-center mb-6">
                 <span className="bg-gray-800 px-2 text-gray-300">OR</span>
                 <div className="absolute top-1/2 left-0 right-0 h-px bg-gray-700"></div>
-              </div>
+              </div> */}
 
               <div className="form-group mb-4">
                 <label htmlFor="email" className="block text-gray-300 mb-2">Email:</label>
