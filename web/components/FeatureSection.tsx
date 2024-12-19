@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from 'react'
-import { Network, Search, Shield, Zap } from 'lucide-react'
+import { Locate, Network, Search, Shield, Zap } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
@@ -36,10 +36,10 @@ export default function FeatureSection() {
 
   const features = [
     {
-      icon: <Network className="w-12 h-12 text-cyan-400" />,
-      title: "People Finder",
-      description: "Aggregate public records, social media, and news mentions.",
-      href: "/tools/people-finder"
+      icon: <Locate className="w-12 h-12 text-cyan-400" />,
+      title: "Satellite Street View Search",
+      description: "Upload an image to analyze its content and attempt to determine the location.",
+      href: "/tools/geo-location/satelite-street-view-search"
     },
     {
       icon: <Search className="w-12 h-12 text-cyan-400" />,
