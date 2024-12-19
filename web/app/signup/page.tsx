@@ -97,7 +97,7 @@ const SignUp: React.FC = () => {
             >
               <h1 className="text-2xl font-bold text-center mb-6">Sign up for DeepFind.Me</h1>
 
-              <div className="flex gap-4 justify-center mb-6">
+              {/* <div className="flex gap-4 justify-center mb-6">
                 <button
                   type="button"
                   onClick={() => handleOAuthSignUp("google")}
@@ -119,7 +119,7 @@ const SignUp: React.FC = () => {
               <div className="relative text-center mb-6">
                 <span className="bg-gray-800 px-2 text-gray-300">OR</span>
                 <div className="absolute top-1/2 left-0 right-0 h-px bg-gray-700"></div>
-              </div>
+              </div> */}
 
               <div className="form-group mb-4">
                 <label htmlFor="username" className="block text-gray-300 mb-2">

@@ -4,78 +4,94 @@ import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { toast } from "@/hooks/use-toast"
 import * as dotenv from 'dotenv'
+import axios from 'axios'
 
 dotenv.config()
 
-export default function DNSLookup() {
-    const [email, setEmail] = useState('')
-    const tool = 'DNSLookup'
+export default function DnsLookup() {
+    const [domain, setDomain] = useState("");
+    const [results, setResults] = useState<
+        { recordType: string; value: string }[]
+    >([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
-        try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/notify`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, tool }),
-            })
-            if (response.ok) {
-                toast({
-                    title: "You're on the list!",
-                    description: "We'll ping you when we're live. Stay tuned!",
-                })
-                setEmail('')
-            } else {
-                throw new Error('Failed to submit email')
-            }
-        } catch (error) {
-            toast({
-                title: "Oops!",
-                description: "Something went wrong. Please try again later.",
-                variant: 'destructive',
-            })
+        e.preventDefault();
+
+        if (!domain.trim()) {
+            setError("Please enter a valid domain.");
+            return;
         }
-    }
+
+        setLoading(true);
+        setError(null);
+        setResults([]);
+
+        try {
+            const response = await axios.post(
+                `${process.env.NEXT_PUBLIC_API_URL}/dns-lookup`,
+                { domain }
+            );
+            setResults(response.data.records);
+        } catch (err: unknown) {
+            setError("An unexpected error occurred.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
-        <section className="flex-auto py-16">
+        <section className="py-16 bg-gray-900">
             <div className="container mx-auto px-4">
-                <h1 className="text-4xl font-bold mb-8 text-center text-cyan-400 animate-pulse">
+                <h1 className="text-4xl font-bold mb-4 text-center text-white">
                     DNS Lookup
                 </h1>
-                <p className="text-xl mb-8 text-center text-gray-300">
-                    Analyze DNS records and history. <br></br>
-                    We're leveling up - be the first to know when we drop!
+                <p className="text-lg mb-8 text-center text-gray-300">
+                    Enter a domain name to fetch DNS records (A, MX, TXT, etc.)
                 </p>
-                <Card className="max-w-md mx-auto mb-12 bg-black bg-opacity-50 border border-cyan-500 hover:border-cyan-400 transition-all transform hover:scale-105">
-                    <CardHeader>
-                        <CardTitle className="text-2xl font-semibold text-cyan-400">
-                            Get Early Access
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="max-w-md mx-auto mb-8">
+                    <form onSubmit={handleSubmit}>
+                        <div className="flex items-center space-x-2">
                             <Input
-                                type="email"
-                                placeholder="Drop your email here"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                type="text"
+                                placeholder="Enter domain"
+                                value={domain}
+                                onChange={(e) => setDomain(e.target.value)}
                                 required
-                                className="bg-gray-800 border-cyan-600 text-white placeholder-gray-400"
                             />
-                            <Button type="submit" className="w-full bg-cyan-600 hover:bg-cyan-700 text-white">
-                                Notify Me
+                            <Button type="submit" disabled={loading}>
+                                {loading ? "Looking up..." : "Lookup"}
                             </Button>
-                        </form>
-                    </CardContent>
-                </Card>
-                <p className="text-sm text-gray-400 text-center mt-8">
-                    <em>Heads up:</em> We're cooking up something epic. Our tool will be faster,
-                    more comprehensive, and cooler than ever. Stay in the loop!
-                </p>
+                        </div>
+                    </form>
+                    {error && (
+                        <div className="bg-red-500 text-white p-4 rounded-lg mt-4">
+                            {error}
+                        </div>
+                    )}
+                </div>
+                {results.length > 0 && (
+                    <Card className="bg-black bg-opacity-50 border border-cyan-500">
+                        <CardHeader>
+                            <CardTitle className="text-xl font-semibold text-cyan-400">
+                                DNS Records
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <ul className="space-y-2">
+                                {results.map(({ recordType, value }, index) => (
+                                    <li key={index} className="flex justify-between items-center">
+                                        <span className="text-white">{recordType}</span>
+                                        <span className="text-gray-300">{value}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </CardContent>
+                    </Card>
+                )}
             </div>
         </section>
-    )
+    );
 }
