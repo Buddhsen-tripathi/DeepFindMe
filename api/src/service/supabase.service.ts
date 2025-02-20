@@ -27,13 +27,14 @@ export class SupabaseService {
     }
 
     // Method to sign in with OAuth (Google/GitHub)
-    async signInWithOAuth(provider: 'google' | 'github') {
-        const { data, error } = await this.client.auth.signInWithOAuth({ provider });
-
+    async signInWithOAuth(provider: 'google' | 'github', redirectTo: string) {
+        const { data, error } = await this.client.auth.signInWithOAuth({
+            provider,
+            options: { redirectTo },
+        });
         if (error) {
             throw new Error(`Failed to sign in with ${provider}: ${error.message}`);
         }
-
         return data; // Contains user information and session details
     }
 
@@ -41,7 +42,6 @@ export class SupabaseService {
     async signInWithEmailPassword(signInDto: SignInDto) {
         const { email, password } = signInDto;
         const { data, error } = await this.client.auth.signInWithPassword({ email, password });
-
         if (error) {
             if (error.message.includes('invalid')) {
                 throw new Error('Invalid email or password.');
@@ -49,8 +49,7 @@ export class SupabaseService {
                 throw new Error(`Sign-in failed: ${error.message}`);
             }
         }
-
-        return data.user;
+        return data;
     }
 
 
@@ -69,8 +68,8 @@ export class SupabaseService {
         const { user } = data;
         const { error: profileError } = await this.client
             .from('profiles')
-            .insert([{ 
-                user_id: user.id, 
+            .insert([{
+                user_id: user.id,
                 username,         // Ensure username is defined
                 email: email      // Include email in the same object
             }]);
@@ -109,5 +108,5 @@ export class SupabaseService {
 
         return data.user;  // Return updated user data
     }
-    
+
 }
