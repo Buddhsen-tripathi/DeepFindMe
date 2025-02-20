@@ -2,7 +2,7 @@ import HeroSection from "@/components/HeroSection";
 import NavBar from "@/components/NavBar";
 import FeatureSection from "@/components/FeatureSection";
 import Footer from "@/components/Footer";
-// import Sponsor from "@/components/Sponsor";
+import Sponsor from "@/components/Sponsor";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export default function Home() {
@@ -13,7 +13,7 @@ export default function Home() {
       <main className="flex-grow">
         <HeroSection />
         <FeatureSection />
-        {/* <Sponsor /> */}
+        <Sponsor />
       </main>
       <Footer />
     </div>

@@ -27,7 +27,6 @@ export class AuthController {
         }
     }
 
-    // Route to initiate Google OAuth sign-in
     @Post('signin-google')
     async signInWithGoogle() {
         try {
@@ -38,7 +37,6 @@ export class AuthController {
         }
     }
 
-    // Route to initiate GitHub OAuth sign-in
     @Post('signin-github')
     async signInWithGithub() {
         try {
