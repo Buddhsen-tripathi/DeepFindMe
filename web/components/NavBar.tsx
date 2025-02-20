@@ -1,67 +1,56 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { Search, User, Menu, X } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { Search, User, Menu, X } from 'lucide-react';
+import { useClerk, useUser } from '@clerk/nextjs';
 
 export default function NavBar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); // Track login status
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState<boolean>(false); // User menu toggle
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const searchRef = useRef<HTMLDivElement | null>(null);
-  const router = useRouter();
+  const { signOut } = useClerk();
+  const { isSignedIn } = useUser();
 
   useEffect(() => {
-    // Check login status from localStorage
-    const loggedInStatus = localStorage.getItem("isLoggedIn");
-    if (loggedInStatus === "true") {
-      setIsLoggedIn(true);
-    }
-
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
-    };
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => setIsScrolled(window.scrollY > 0);
+    window.addEventListener('scroll', handleScroll);
 
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setIsSearchOpen(false);
       }
     };
-
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
-  const navClassName = `fixed w-full z-50 transition-all duration-300 ${isScrolled || isOpen ? "bg-gray-900 bg-opacity-90 backdrop-blur-md" : "bg-transparent"
+  const navClassName = `fixed w-full z-50 transition-all duration-300 ${isScrolled || isOpen ? 'bg-gray-900 bg-opacity-90 backdrop-blur-md' : 'bg-transparent'
     }`;
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Search for:", searchQuery);
+    console.log('Search for:', searchQuery);
   };
 
-  const handleSignOut = () => {
-    // Clear login status
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("user_uuid");
-    setIsLoggedIn(false);
-    router.push("/");
-    console.log("User signed out");
+  const handleSignOut = async () => {
+    try {
+      await signOut({ redirectUrl: '/' }); // Clerk redirects to /
+      setIsUserMenuOpen(false);
+    } catch (error) {
+      console.error('Sign-out failed:', error);
+    }
   };
 
-  const toggleUserMenu = () => {
-    setIsUserMenuOpen(!isUserMenuOpen);
-  };
+  const toggleUserMenu = () => setIsUserMenuOpen(!isUserMenuOpen);
 
   return (
     <nav className={navClassName}>
@@ -82,34 +71,28 @@ export default function NavBar() {
             <NavLink href="/contact">Contact</NavLink>
           </div>
           <div className="flex items-center space-x-4">
-            {/* <button
-              className="text-white hover:text-cyan-400 transition-colors"
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-            >
-              <Search size={20} />
-            </button> */}
-            {isLoggedIn ? (
-              <>
-                <div className="relative">
-                  <button
-                    onClick={toggleUserMenu}
-                    className="text-white hover:text-cyan-400 transition-colors flex items-center"
-                  >
-                    <User size={20} />
-                  </button>
-                  {isUserMenuOpen && (
-                    <div className="absolute right-0 bg-gray-800 text-white rounded-md mt-2 w-40 z-50">
-                      <Link href="/profile" className="block px-4 py-2 hover:bg-gray-700">View Profile</Link>
-                      <button
-                        onClick={handleSignOut}
-                        className="block w-full px-4 py-2 text-left hover:bg-gray-700"
-                      >
-                        Sign Out
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </>
+            {isSignedIn ? (
+              <div className="relative">
+                <button
+                  onClick={toggleUserMenu}
+                  className="text-white hover:text-cyan-400 transition-colors flex items-center"
+                >
+                  <User size={20} />
+                </button>
+                {isUserMenuOpen && (
+                  <div className="absolute right-0 bg-gray-800 text-white rounded-md mt-2 w-40 z-50">
+                    <Link href="/profile" className="block px-4 py-2 hover:bg-gray-700">
+                      View Profile
+                    </Link>
+                    <button
+                      onClick={handleSignOut}
+                      className="block w-full px-4 py-2 text-left hover:bg-gray-700"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
             ) : (
               <>
                 <NavLink href="/login">Login</NavLink>
@@ -172,9 +155,9 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
   );
 }
 
-function MobileNavLink({ href, children, onClick }: { href: string, children: React.ReactNode, onClick?: () => void }) {
+function MobileNavLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <Link href={href} className="block py-2 text-gray-300 hover:text-cyan-400 transition-colors" onClick={onClick}>
+    <Link href={href} className="block py-2 text-gray-300 hover:text-cyan-400 transition-colors">
       {children}
     </Link>
   );

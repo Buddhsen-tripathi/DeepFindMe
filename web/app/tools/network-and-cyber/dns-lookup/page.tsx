@@ -4,10 +4,8 @@ import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import * as dotenv from 'dotenv'
 import axios from 'axios'
 
-dotenv.config()
 
 export default function DnsLookup() {
     const [domain, setDomain] = useState("");

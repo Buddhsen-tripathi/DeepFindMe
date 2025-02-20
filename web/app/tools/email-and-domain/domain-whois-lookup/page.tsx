@@ -5,9 +5,6 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 export default function DomainWHOISLookup() {
     const [domain, setDomain] = useState("");

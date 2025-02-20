@@ -6,9 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileUp, File, AlertCircle, X } from "lucide-react";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
-import * as dotenv from 'dotenv'
-
-dotenv.config()
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB in bytes
 
