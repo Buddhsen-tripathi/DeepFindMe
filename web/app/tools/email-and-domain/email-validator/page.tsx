@@ -5,9 +5,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "@/hooks/use-toast"
-import * as dotenv from 'dotenv'
-
-dotenv.config()
 
 export default function EmailValidator() {
     const [email, setEmail] = useState('')

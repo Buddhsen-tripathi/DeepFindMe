@@ -6,9 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExternalLink } from "lucide-react";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 const categories = {
   Social: ["Instagram","Twitter","Facebook","Reddit","Bluesky","Mastodon","VK","Pinterest"],
