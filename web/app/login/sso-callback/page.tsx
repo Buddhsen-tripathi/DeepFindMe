@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useClerk } from '@clerk/nextjs';
 
@@ -32,4 +32,13 @@ const SSOCallback: React.FC = () => {
     );
 };
 
-export default SSOCallback;
+// Wrap your component in Suspense
+const SuspenseWrapper: React.FC = () => {
+    return (
+        <Suspense fallback={<p>Loading...</p>}>
+            <SSOCallback />
+        </Suspense>
+    );
+};
+
+export default SuspenseWrapper;
