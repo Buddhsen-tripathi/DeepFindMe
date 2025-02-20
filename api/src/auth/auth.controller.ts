@@ -20,8 +20,8 @@ export class AuthController {
     @Post('signin')
     async signIn(@Body() signInDto: SignInDto) {
         try {
-            const session = await this.supabaseService.signInWithEmailPassword(signInDto);
-            return { message: 'Sign-in successful', session };
+            const { user, session } = await this.supabaseService.signInWithEmailPassword(signInDto);
+            return { message: 'Sign-in successful', user, session };
         } catch (error) {
             throw new HttpException(`Sign-in failed: ${error.message}`, HttpStatus.BAD_REQUEST);
         }
@@ -30,8 +30,9 @@ export class AuthController {
     @Post('signin-google')
     async signInWithGoogle() {
         try {
-            const session = await this.supabaseService.signInWithOAuth('google');
-            return { message: 'Sign in with Google successful', session };
+            const redirectTo = 'http://deepfind.me/oauth/callback';
+            const session = await this.supabaseService.signInWithOAuth('google', redirectTo);
+            return { message: 'Sign in with Google initiated', url: session.url };
         } catch (error) {
             throw new HttpException(`Sign-in with Google failed: ${error.message}`, HttpStatus.BAD_REQUEST);
         }
@@ -40,10 +41,11 @@ export class AuthController {
     @Post('signin-github')
     async signInWithGithub() {
         try {
-            const session = await this.supabaseService.signInWithOAuth('github');
-            return { message: 'Sign in with GitHub successful', session };
+            const redirectTo = 'http://deepfind.me/oauth/callback';
+            const session = await this.supabaseService.signInWithOAuth('github', redirectTo);
+            return { message: 'Sign in with GitHub initiated', url: session.url };
         } catch (error) {
-            return { message: `Sign-in with GitHub failed: ${error.message}`, error: error.message };
+            throw new HttpException(`Sign-in with GitHub failed: ${error.message}`, HttpStatus.BAD_REQUEST);
         }
     }
 

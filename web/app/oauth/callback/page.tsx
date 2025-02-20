@@ -1,71 +1,45 @@
 'use client'
 
-import { Suspense, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Cookies from 'js-cookie';
-import { useSearchParams } from 'next/navigation';  // Import useSearchParams
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize the Supabase client with environment variables
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 const OAuthCallback = () => {
-    const router = useRouter();
-    const searchParams = useSearchParams();  // Use searchParams instead of query
+  const router = useRouter();
 
-    useEffect(() => {
-        const access_token = searchParams.get('access_token');
-        const user = searchParams.get('user');  // You may need to parse 'user' if it's an object
-        const error = searchParams.get('error');
-        const refresh_token = searchParams.get('refresh_token');
-        const provider_token = searchParams.get('provider_token');
-        const expires_at = searchParams.get('expires_at');
+  useEffect(() => {
+    const checkSession = async () => {
+      // Check the session by processing the URL fragment
+      const { data: { session }, error } = await supabase.auth.getSession();
 
-        if (error) {
-            // Handle error, maybe show an error page
-            console.error("OAuth error:", error);
-            router.push('/login');
-            return;
-        }
+      if (error || !session) {
+        // Log the error and redirect to login if session check fails
+        console.error('No session found:', error?.message);
+        router.push('/login');
+      } else {
+        // Store user data in localStorage (optional)
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('user_uuid', session.user.id);
+        // Redirect to success page
+        router.push('/login/success');
+      }
+    };
 
-        if (access_token && user) {
-            // Parse user if it's a stringified JSON object
-            let parsedUser = null;
-            try {
-                parsedUser = user ? JSON.parse(user) : null;
-            } catch (e) {
-                console.error("Failed to parse user data", e);
-                router.push('/login');
-                return;
-            }
+    checkSession();
+  }, [router]);
 
-            // Store access token and user data (you can also use sessionStorage or localStorage)
-            Cookies.set('access_token', access_token, { expires: 7 });  // Store in cookies (consider HttpOnly)
-            sessionStorage.setItem('user', JSON.stringify(parsedUser));
-
-            // You might also want to store refresh token and other info securely
-            if (refresh_token) {
-                Cookies.set('refresh_token', refresh_token, { expires: 7 }); // Optional: Store refresh token
-            }
-
-            // Optional: Store expiration time
-            if (expires_at) {
-                const expirationTime = new Date(parseInt(expires_at) * 1000);
-                Cookies.set('expires_at', expirationTime.toISOString(), { expires: 7 });
-            }
-
-            // Redirect to success page
-            router.push('/login/success');
-        } else {
-            router.push('/login');
-        }
-    }, [searchParams, router]);  // Use searchParams in dependencies
-
-    return <div className="bg-gray-900 text-white min-h-screen mx-auto">Loading...</div>;
+  // Display a loading state while the session is being checked
+  return (
+    <div className="bg-gray-900 text-white min-h-screen flex items-center justify-center">
+      Loading...
+    </div>
+  );
 };
 
-const OAuthCallbackSuspense = () => {
-    return (
-        <Suspense fallback={<div className="bg-gray-900 text-white min-h-screen mx-auto">Loading...</div>}>
-            <OAuthCallback />
-        </Suspense>
-    );
-};
-
-export default OAuthCallbackSuspense;
+export default OAuthCallback;
