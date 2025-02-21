@@ -38,9 +38,9 @@ async function getBlogPost(slug: string) {
 
 export type paramsType = Promise<{ slug: string }>;
 
-export default async function BlogPost({ params }: { params: { slug: string } }) {
+export default async function BlogPost({ params }: { params: paramsType }) {
     // Fetch blog post data
-    const { content, data } = await getBlogPost(params.slug);
+    const { content, data } = await getBlogPost((await params).slug)
 
     return (
         <div className="flex flex-col items-center justify-center w-full px-6">
