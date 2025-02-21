@@ -9,7 +9,7 @@ export default function SignUpPage() {
         <div className="text-center mb-8">
           <Link href="/">
             <Image
-              src="/logo-white.png"
+              src="/logo-white.webp"
               alt="Logo"
               width={150}
               height={50}
