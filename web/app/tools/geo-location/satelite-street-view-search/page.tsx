@@ -72,7 +72,7 @@ export default function ImageAnalysis() {
   return (
     <section className="py-16 bg-gray-900">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold mb-6 text-center text-white">
+        <h1 className="text-4xl font-bold mb-6 text-center text-cyan-500">
           Satellite Street View Search
         </h1>
         <p className="text-lg mb-8 text-center text-gray-300">

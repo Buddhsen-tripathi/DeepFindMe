@@ -104,7 +104,7 @@ export default function MetadataExtractor() {
   return (
     <section className="py-16 bg-gray-900">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold mb-4 text-center text-white">Metadata Extractor</h1>
+        <h1 className="text-4xl font-bold mb-4 text-center text-cyan-500">Metadata Extractor</h1>
         <p className="text-xl mb-8 text-center text-gray-300">
           Upload a file to extract its metadata. Supports images, videos, audio files, and documents.
         </p>

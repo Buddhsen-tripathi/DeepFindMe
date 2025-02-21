@@ -126,7 +126,7 @@ export default function DomainWHOISLookup() {
     return (
         <section className="py-16 bg-gray-900">
             <div className="container mx-auto px-4">
-                <h1 className="text-4xl font-bold mb-4 text-center text-white">Domain WHOIS Lookup</h1>
+                <h1 className="text-4xl font-bold mb-4 text-center text-cyan-500">Domain WHOIS Lookup</h1>
                 <p className="text-lg mb-8 text-center text-gray-300">
                     Enter a domain name to fetch its WHOIS records and details.
                 </p>

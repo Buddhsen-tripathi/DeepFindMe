@@ -70,7 +70,7 @@ export async function GET(): Promise<Response> {
   ]);
 
   // Add blog posts
-  const blogPosts = posts.map((post) => ({
+  const blogPosts = (await posts).map((post) => ({
     url: `${baseUrl}/blogs/${post.slug}`.toLowerCase(),
     lastModified: parseDate(post.date),
     priority: "0.8",

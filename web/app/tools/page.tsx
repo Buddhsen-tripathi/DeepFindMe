@@ -44,7 +44,7 @@ const toolCategories = [
   {
     name: "Dark Web Exploration Tools",
     icon: <Shield className="w-12 h-12 text-cyan-400" />,
-    description: "Check dark web links and scan for data breaches.",
+    description: "Check dark web links without tor and scan for leaked data in data breaches.",
     link: "/tools/dark-web-exploration"
   }
 ]

@@ -58,7 +58,7 @@ export default function NavBar() {
         <div className="flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold text-white">
             <Image
-              src="/logo-white.png"
+              src="/logo-white.webp"
               alt="Logo"
               width={50}
               height={50}
