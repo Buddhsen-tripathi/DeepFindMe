@@ -10,9 +10,10 @@ import { IpGeolocationModule } from './module/ip-geolocation.module';
 import { PortScannerModule } from './module/port-scanner.module';
 import { DnsLookupModule } from './module/dns-lookup.module';
 import { ImageLocationModule } from './module/image-location.module';
+import { SubdomainFinderModule } from './module/subdomain-finder.module';
 
 @Module({
-  imports: [UsernameSearchModule, MetadataModule, NotifyModule, SharedModule, WhoisModule, IpGeolocationModule, PortScannerModule, DnsLookupModule, ImageLocationModule],
+  imports: [UsernameSearchModule, MetadataModule, NotifyModule, SharedModule, WhoisModule, IpGeolocationModule, PortScannerModule, DnsLookupModule, ImageLocationModule, SubdomainFinderModule],
   controllers: [AppController],
   providers: [AppService],
 })

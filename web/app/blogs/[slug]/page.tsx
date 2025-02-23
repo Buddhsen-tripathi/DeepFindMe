@@ -45,7 +45,7 @@ export default async function BlogPost({ params }: { params: paramsType }) {
     return (
         <div className="flex flex-col items-center justify-center w-full px-6">
             <div className="w-full max-w-[1300px] space-y-8 py-8">
-                <Link href="/blogs" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary">
+                <Link href="/blogs" className="inline-flex items-center text-sm text-muted-foreground hover:text-cyan-500">
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to Blogs
                 </Link>

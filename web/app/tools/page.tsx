@@ -2,7 +2,9 @@
 
 import { useRef, useEffect } from 'react'
 import Link from 'next/link'
-import { User, MapPin, Mail, FileText, Search, Network, Shield } from 'lucide-react'
+import { 
+  User, MapPin, Mail, FileText, Search, Network, Shield, Lock, Radio 
+} from 'lucide-react'
 
 const toolCategories = [
   {
@@ -44,8 +46,20 @@ const toolCategories = [
   {
     name: "Dark Web Exploration Tools",
     icon: <Shield className="w-12 h-12 text-cyan-400" />,
-    description: "Check dark web links without tor and scan for leaked data in data breaches.",
+    description: "Check dark web links without Tor and scan for leaked credentials in data breaches.",
     link: "/tools/dark-web-exploration"
+  },
+  {
+    name: "Encryption & Hashing",
+    icon: <Lock className="w-12 h-12 text-cyan-400" />,
+    description: "Encrypt, decrypt, and hash data using various cryptographic techniques.",
+    link: "/tools/encryption-and-hashing"
+  },
+  {
+    name: "Encoders & Decoders",
+    icon: <Radio className="w-12 h-12 text-cyan-400" />,
+    description: "Encode and decode data using Base64, URL encoding, and more.",
+    link: "/tools/encoding-and-decoding"
   }
 ]
 
@@ -81,9 +95,9 @@ export default function ToolsPage() {
 
   return (
     <div className="flex-grow bg-gray-900 text-white">
-
       <main className="pt-4">
-        <section ref={sectionRef} className="py-20 opacity-0">
+      <title>Tools - DeepFind.Me</title>
+        <section ref={sectionRef} className="py-16 opacity-0">
           <div className="container mx-auto px-4">
             <h1 className="text-4xl font-bold mb-8 text-center">DeepFind.Me Tools</h1>
             <p className="text-xl mb-12 text-center text-gray-300 max-w-3xl mx-auto">

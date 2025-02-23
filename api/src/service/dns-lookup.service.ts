@@ -32,7 +32,6 @@ export class DnsLookupService {
       }
     }
 
-    // Filter out empty array-like values and ensure uniqueness based on recordType and value
     const response = [
       ...new Map(results.filter(({ value }) => value !== '[]').map(item => [`${item.recordType}-${item.value}`, item])).values(),
     ];
