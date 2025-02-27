@@ -8,7 +8,7 @@ import { toast } from '@/hooks/use-toast';
 import { useDropzone } from 'react-dropzone';
 import { FileUp, Lock, Unlock } from 'lucide-react';
 
-export default function FileProtector() {
+export default function FileEncryptor() {
   const [file, setFile] = useState<File | null>(null);
   const [operation, setOperation] = useState<'encrypt' | 'decrypt'>('encrypt');
   const [loading, setLoading] = useState(false);

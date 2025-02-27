@@ -16,11 +16,11 @@ export default function EncryptionAndHashingTools() {
               <p className="text-gray-400">Securely encrypt and decrypt text messages.</p>
             </div>
           </Link>
-          <Link href="/tools/encryption-and-hashing/file-protector" className="block">
+          <Link href="/tools/encryption-and-hashing/file-encryptor" className="block">
             <div className="bg-gray-800 p-6 rounded-lg border border-cyan-500 hover:border-cyan-400 transition-colors hover:bg-cyan-900 hover:bg-opacity-20">
               <h2 className="text-2xl font-semibold mb-4 flex items-center">
                 <FileText className="w-6 h-6 mr-2 text-cyan-400" />
-                File Protector
+                File Encryptor
               </h2>
               <p className="text-gray-400">Encrypt PDFs, images, and other sensitive files.</p>
             </div>
