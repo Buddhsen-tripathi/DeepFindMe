@@ -61,7 +61,6 @@ export class SubdomainFinderService {
                 if (error.code === 'ENOTFOUND') {
                     continue;
                 }
-                this.logger.debug(`Resolution failed for ${subdomain} (${recordType}): ${error.message}`);
             }
         }
         return false;

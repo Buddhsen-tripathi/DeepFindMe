@@ -11,9 +11,10 @@ import { PortScannerModule } from './module/port-scanner.module';
 import { DnsLookupModule } from './module/dns-lookup.module';
 import { ImageLocationModule } from './module/image-location.module';
 import { SubdomainFinderModule } from './module/subdomain-finder.module';
+import { FileProtectionModule } from './module/file-protection.module';
 
 @Module({
-  imports: [UsernameSearchModule, MetadataModule, NotifyModule, SharedModule, WhoisModule, IpGeolocationModule, PortScannerModule, DnsLookupModule, ImageLocationModule, SubdomainFinderModule],
+  imports: [UsernameSearchModule, MetadataModule, NotifyModule, SharedModule, WhoisModule, IpGeolocationModule, PortScannerModule, DnsLookupModule, ImageLocationModule, SubdomainFinderModule, FileProtectionModule],
   controllers: [AppController],
   providers: [AppService],
 })

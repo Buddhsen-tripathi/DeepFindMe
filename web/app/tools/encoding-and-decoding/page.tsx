@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Code, Hash, Database } from 'lucide-react'
+import { Code, Hash, Database, Key, QrCode } from 'lucide-react'
 
 export default function EncodingAndDecodingTools() {
   return (
@@ -11,27 +11,36 @@ export default function EncodingAndDecodingTools() {
             <div className="bg-gray-800 p-6 rounded-lg border border-cyan-500 hover:border-cyan-400 transition-colors hover:bg-cyan-900 hover:bg-opacity-20">
               <h2 className="text-2xl font-semibold mb-4 flex items-center">
                 <Code className="w-6 h-6 mr-2 text-cyan-400" />
-                Base64 Converter
+                Base64 Encoder/Decoder
               </h2>
               <p className="text-gray-400">Encode and decode text or files using Base64.</p>
             </div>
           </Link>
-          <Link href="/tools/encoding-and-decoding/url-encoder" className="block">
+          <Link href="/tools/encoding-and-decoding/hex-converter" className="block">
             <div className="bg-gray-800 p-6 rounded-lg border border-cyan-500 hover:border-cyan-400 transition-colors hover:bg-cyan-900 hover:bg-opacity-20">
               <h2 className="text-2xl font-semibold mb-4 flex items-center">
                 <Hash className="w-6 h-6 mr-2 text-cyan-400" />
-                URL Encoder/Decoder
+                Hex Encoder/Decoder
               </h2>
-              <p className="text-gray-400">Convert URLs to encoded format and back.</p>
+              <p className="text-gray-400">Convert text to hexadecimal and vice versa.</p>
             </div>
           </Link>
-          <Link href="/tools/encoding-and-decoding/json-formatter" className="block">
+          <Link href="/tools/encoding-and-decoding/jwt-decoder" className="block">
             <div className="bg-gray-800 p-6 rounded-lg border border-cyan-500 hover:border-cyan-400 transition-colors hover:bg-cyan-900 hover:bg-opacity-20">
               <h2 className="text-2xl font-semibold mb-4 flex items-center">
-                <Database className="w-6 h-6 mr-2 text-cyan-400" />
-                JSON Formatter
+                <Key className="w-6 h-6 mr-2 text-cyan-400" />
+                JWT Decoder
               </h2>
-              <p className="text-gray-400">Format, minify, and beautify JSON data.</p>
+              <p className="text-gray-400">Decode and inspect JSON Web Tokens (JWT) without a secret.</p>
+            </div>
+          </Link>
+          <Link href="/tools/encoding-and-decoding/qr-code-generator" className="block">
+            <div className="bg-gray-800 p-6 rounded-lg border border-cyan-500 hover:border-cyan-400 transition-colors hover:bg-cyan-900 hover:bg-opacity-20">
+              <h2 className="text-2xl font-semibold mb-4 flex items-center">
+                <QrCode className="w-6 h-6 mr-2 text-cyan-400" />
+                QR Code Generator & Decoder
+              </h2>
+              <p className="text-gray-400">Generate QR codes from text or URLs and decode them back.</p>
             </div>
           </Link>
         </div>
