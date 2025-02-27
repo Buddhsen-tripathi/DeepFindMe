@@ -31,7 +31,7 @@ export default function EncryptionAndHashingTools() {
                 <Image className="w-6 h-6 mr-2 text-cyan-400" />
                 Steganography Tool
               </h2>
-              <p className="text-gray-400">Hide secret messages inside images.</p>
+              <p className="text-gray-400">Hide and reveal secret messages inside images.</p>
             </div>
           </Link>
           <Link href="/tools/encryption-and-hashing/hashing-tool" className="block">
