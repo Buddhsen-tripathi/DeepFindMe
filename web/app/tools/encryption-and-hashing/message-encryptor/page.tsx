@@ -40,7 +40,7 @@ export default function MessageEncryptor() {
         <section className="flex-auto py-16">
             <div className="container mx-auto px-4">
                 <h1 className="text-4xl font-bold mb-8 text-center text-cyan-400 animate-pulse">
-                    MessageEncryptor
+                    Message Encryptor
                 </h1>
                 <p className="text-xl mb-8 text-center text-gray-300">
                     Securely encrypt and decrypt text messages. <br></br>
