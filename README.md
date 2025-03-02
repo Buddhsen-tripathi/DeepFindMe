@@ -64,7 +64,7 @@ The frontend development server will start on the default port (usually 3000).
 
 ## Usage
 
-Once both the backend and frontend servers are running, you can access the web application in your browser by visiting http://localhost:3000 to explore DeepFind.Me’s OSINT tools.
+Once both the backend and frontend servers are running, you can access the web application in your browser by visiting ```localhost:3000``` to explore DeepFind.Me’s OSINT tools.
 
 ## Contributing
 
@@ -87,5 +87,5 @@ DeepFind.Me is licensed under the MIT License.  See the ```LICENSE``` file for d
 
 For questions, collaborations, or tool requests:  
 
-- **Twitter:** [Buddhsen Tripathi]([https://x.com/_TripathiJi](https://x.com/intent/follow?screen_name=_TripathiJi))  
+- **Twitter:** [Buddhsen Tripathi](https://x.com/intent/follow?screen_name=_TripathiJi)  
 - **Website:** [DeepFind.Me](https://deepfind.me)  
