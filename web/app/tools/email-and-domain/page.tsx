@@ -5,7 +5,7 @@ export default function SocialMediaTools() {
     return (
         <section className="py-16">
             <div className="container mx-auto px-4">
-                <h1 className="text-4xl font-bold mb-8 text-center">Social Media Investigative Tools</h1>
+                <h1 className="text-4xl font-bold mb-8 text-center">Email and Domain Investigation Tools</h1>
                 <div className="grid md:grid-cols-2 gap-8">
                     <Link href="/tools/email-and-domain/domain-whois-lookup" className="block">
                         <div className="bg-gray-800 p-6 rounded-lg border border-cyan-500 hover:border-cyan-400 transition-colors hover:bg-cyan-900 hover:bg-opacity-20">
