@@ -44,7 +44,7 @@ export default function FileEncryptor() {
   
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/file-protection?operation=${operation}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/file-encryptor?operation=${operation}`,
         formData,
         { responseType: 'blob' } // Fix: Receive binary response as a blob
       );

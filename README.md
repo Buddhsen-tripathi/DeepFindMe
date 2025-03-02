@@ -81,7 +81,7 @@ Contributions are welcome! Please follow these steps to contribute:
 - LICENSE → Licensing information.
 
 ## License
-DeepFind.Me is licensed under the MIT License.  See the ```LICENSE``` file for details.
+DeepFind.Me is licensed under the Apache 2.0 License.  See the ```LICENSE``` file for details.
 
 ## **Contact**  
 

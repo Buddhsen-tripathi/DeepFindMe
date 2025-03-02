@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { FileProtectionController } from '../controller/file-protection.controller';
-import { FileProtectionService } from '../service/file-protection.service';
+import { FileProtectionController } from '../controller/file-encryptor.controller';
+import { FileEncryptorService } from '../service/file-encryptor.service';
 
 @Module({
   controllers: [FileProtectionController],
-  providers: [FileProtectionService],
+  providers: [FileEncryptorService],
 })
 export class FileProtectionModule {}

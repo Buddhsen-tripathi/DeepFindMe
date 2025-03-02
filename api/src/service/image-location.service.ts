@@ -30,6 +30,8 @@ export class ImageService {
         const uniqueFileName = `${baseFileName}-${uuidv4()}.${fileExtension}`; // Append UUID to ensure uniqueness
         const fileKey = `satelite-image/${uniqueFileName}`; // Ensure the file is uploaded to the 'satelite-image' folder
 
+        console.log(`Uploading image to S3`);
+
         try {
             await this.s3
                 .upload({
@@ -40,8 +42,11 @@ export class ImageService {
                 })
                 .promise();
 
-            return `https://${bucketName}.s3.amazonaws.com/${fileKey}`;
+            const imageUrl = `https://${bucketName}.s3.amazonaws.com/${fileKey}`;
+            console.log(`Image successfully uploaded to S3: ${imageUrl}`);
+            return imageUrl;
         } catch (error) {
+            console.error(`Failed to upload image to S3: ${error.message}`);
             throw new HttpException(
                 `Failed to upload image to S3: ${error.message}`,
                 HttpStatus.INTERNAL_SERVER_ERROR,
@@ -50,6 +55,8 @@ export class ImageService {
     }
 
     async analyzeImageWithOpenAI(imageUrl: string): Promise<string> {
+        console.log(`Analyzing image with OpenAI: ${imageUrl}`);
+
         try {
             const response = await this.openai.chat.completions.create({
                 model: 'gpt-4o-mini',
@@ -62,7 +69,7 @@ export class ImageService {
                 }],
             });
 
-            console.log(response.choices[0].message.content);
+            console.log(`OpenAI response: ${response.choices[0].message.content}`);
 
             if (typeof response === 'string') {
                 return response;
@@ -75,6 +82,7 @@ export class ImageService {
 
             throw new Error('Unexpected response format from OpenAI API');
         } catch (error) {
+            console.error(`Failed to analyze image with OpenAI: ${error.message}`);
             throw new HttpException(
                 `Failed to analyze image with OpenAI: ${error.message}`,
                 HttpStatus.INTERNAL_SERVER_ERROR,
@@ -83,6 +91,7 @@ export class ImageService {
     }
 
     async handleImage(file: Express.Multer.File): Promise<string> {
+        console.log(`Handling image upload and analysis for file: ${file.originalname}`);
         const imageUrl = await this.uploadImageToS3(file);
         return this.analyzeImageWithOpenAI(imageUrl);
     }
