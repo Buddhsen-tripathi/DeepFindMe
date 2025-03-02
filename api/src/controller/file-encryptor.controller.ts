@@ -9,11 +9,11 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
-import { FileProtectionService } from '../service/file-protection.service';
+import { FileEncryptorService } from '../service/file-encryptor.service';
 
 @Controller('file-protection')
 export class FileProtectionController {
-    constructor(private readonly fileService: FileProtectionService) { }
+    constructor(private readonly fileService: FileEncryptorService) { }
 
     @Post()
     @UseInterceptors(FileInterceptor('file'))

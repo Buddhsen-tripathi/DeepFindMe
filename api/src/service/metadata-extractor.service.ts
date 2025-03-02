@@ -8,6 +8,7 @@ import * as path from 'path';
 export class MetadataService {
   // Extract EXIF metadata
   private async extractExifData(filePath: string) {
+    console.log(`Extracting EXIF data from file: ${filePath}`);
     try {
       const metadata = await exiftool.read(filePath);
       const gpsData = metadata['GPSLatitude'] && metadata['GPSLongitude']
@@ -17,7 +18,6 @@ export class MetadataService {
             altitude: metadata['GPSAltitude'] || undefined,
           }
         : undefined;
-
       return {
         ...metadata,
         gpsData,
@@ -30,6 +30,7 @@ export class MetadataService {
 
   // Extract video metadata
   private async extractVideoMetadata(filePath: string): Promise<Record<string, any>> {
+    console.log(`Extracting video metadata from file: ${filePath}`);
     return new Promise((resolve) => {
       ffmpeg(filePath)
         .ffprobe((err, data) => {
@@ -63,6 +64,7 @@ export class MetadataService {
 
   // Extract audio metadata
   private async extractAudioMetadata(filePath: string): Promise<Record<string, any>> {
+    console.log(`Extracting audio metadata from file: ${filePath}`);
     return new Promise((resolve) => {
       ffmpeg(filePath)
         .ffprobe((err, data) => {
@@ -91,6 +93,7 @@ export class MetadataService {
 
   // Main metadata extraction handler
   async extractMetadata(filePath: string) {
+    console.log(`Starting metadata extraction for file: ${filePath}`);
     let metadata = {};
     const fileExtension = path.extname(filePath).toLowerCase();
 
@@ -127,6 +130,7 @@ export class MetadataService {
       }
     }
 
+    console.log(`Metadata extraction completed for file: ${filePath}`);
     return metadata;
   }
 }
