@@ -11,7 +11,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
 import { FileEncryptorService } from '../service/file-encryptor.service';
 
-@Controller('file-protection')
+@Controller('file-encryptor')
 export class FileProtectionController {
     constructor(private readonly fileService: FileEncryptorService) { }
 
