@@ -18,7 +18,7 @@ For contributions, create a branch from `develop` and submit pull requests accor
 
 ## **Backend (API)**  
 
-The backend is built using Node.js and NestJS with a structured **service → model → controller** pattern.  
+The backend is built using Node.js and NestJS with a structured **service → controller → module** pattern.  
 
 ### **Running the Backend**  
 
@@ -57,7 +57,7 @@ The frontend is built with Next.js for a smooth user experience.
 
 3. Start the development server:
    ```bash
-   npm start
+   npm run dev
    ```
 
 The frontend development server will start on the default port (usually 3000).
@@ -74,6 +74,13 @@ Contributions are welcome! Please follow these steps to contribute:
 2. Create a new branch for your feature or bugfix.
 3. Commit your changes and push the branch to your fork.
 4. Submit a pull request to ```develop```.
+
+**Note:** If you're submitting a PR, please make sure to run:  
+
+```sh
+npm run build
+```
+before pushing your changes. This helps ensure everything compiles correctly. Thanks for contributing!
 
 ## Related Documents
 
